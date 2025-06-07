@@ -1,103 +1,137 @@
-import { useEffect, useRef } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useAnimation, useInView, useMotionValue, animate } from 'framer-motion';
 import './SkillsSection.css';
 
 interface Skill {
   name: string;
-  category: 'language' | 'framework' | 'tool' | 'platform' | 'design';
+  category: 'frontend' | 'backend' | 'mobile' | 'tools' | 'design';
   icon: string;
+  proficiency?: number; // 1-5 scale
 }
 
 const SkillsSection = () => {
-  const skillsRef = useRef(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
-  const isInView = useInView(skillsRef, { once: true, margin: "-100px" });
-  const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const iconsContainerRef = useRef<HTMLDivElement>(null);
-  const iconsContentRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(skillsRef, { once: false, margin: "-100px" });
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const cursorOpacity = useMotionValue(0);
+  const cursorScale = useMotionValue(1);
+  const cursorRotate = useMotionValue(0);
 
   const skills: Skill[] = [
-    { name: "JavaScript", category: 'language', icon: '🚀' },
-    { name: "TypeScript", category: 'language', icon: '📘' },
-    { name: "React", category: 'framework', icon: '⚛️' },
-    { name: "Node.js", category: 'framework', icon: '🟨' },
-    { name: "HTML5", category: 'language', icon: '🌐' },
-    { name: "CSS3", category: 'language', icon: '🎨' },
-    { name: "Python", category: 'language', icon: '🐍' },
-    { name: "Java", category: 'language', icon: '☕' },
-    { name: "Angular", category: 'framework', icon: '🅰️' },
-    { name: "Figma", category: 'design', icon: '✏️' },
-    { name: "Photoshop", category: 'design', icon: '🖌️' },
-    { name: "Git", category: 'tool', icon: '🔀' },
-    { name: "Docker", category: 'platform', icon: '🐳' },
-    { name: "AWS", category: 'platform', icon: '☁️' },
-    { name: "Next.js", category: 'framework', icon: '⏭️' },
-    { name: "GraphQL", category: 'tool', icon: '📊' },
-    { name: "MongoDB", category: 'platform', icon: '🍃' },
-    { name: "PostgreSQL", category: 'platform', icon: '🐘' },
-    { name: "Redux", category: 'framework', icon: '🔄' },
-    { name: "Sass", category: 'language', icon: '🎀' },
-    { name: "Tailwind", category: 'framework', icon: '🌬️' },
-    { name: "Vue", category: 'framework', icon: '🟩' },
-    { name: "Swift", category: 'language', icon: '🐦' },
-    { name: "Kotlin", category: 'language', icon: '🟪' },
+    // Frontend
+    { name: "React", category: 'frontend', icon: '⚛️', proficiency: 5 },
+    { name: "TypeScript", category: 'frontend', icon: '📘', proficiency: 5 },
+    { name: "JavaScript", category: 'frontend', icon: '🚀', proficiency: 5 },
+    { name: "Tailwind CSS", category: 'frontend', icon: '🌬️', proficiency: 5 },
+    { name: "HTML5", category: 'frontend', icon: '🌐', proficiency: 5 },
+    { name: "CSS3", category: 'frontend', icon: '🎨', proficiency: 5 },
+    // Backend
+    { name: "Node.js", category: 'backend', icon: '🟨', proficiency: 4 },
+    { name: "MongoDB", category: 'backend', icon: '🍃', proficiency: 4 },
+    { name: "REST APIs", category: 'backend', icon: '🔗', proficiency: 5 },
+    { name: "Firebase", category: 'backend', icon: '🔥', proficiency: 4 },
+    { name: "Express.js", category: 'backend', icon: '🚂', proficiency: 5 },
+    { name: "PostgreSQL", category: 'backend', icon: '🐘', proficiency: 4 },
+    // Mobile
+    { name: "React Native", category: 'mobile', icon: '📱', proficiency: 4 },
+    { name: "Expo", category: 'mobile', icon: '📲', proficiency: 4 },
+    { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 3 },
+    { name: "Flutter", category: 'mobile', icon: '🦋', proficiency: 3 },
+    { name: "Lottie", category: 'mobile', icon: '🎞️', proficiency: 3 },
+    { name: "Xcode", category: 'mobile', icon: '🧰', proficiency: 2 },
+    // Tools
+    { name: "Git", category: 'tools', icon: '🔀', proficiency: 5 },
+    { name: "GitHub", category: 'tools', icon: '🐙', proficiency: 5 },
+    { name: "Docker", category: 'tools', icon: '🐳', proficiency: 3 },
+    { name: "Vite", category: 'tools', icon: '⚡', proficiency: 5 },
+    { name: "Postman", category: 'tools', icon: '📬', proficiency: 5 },
+    { name: "ESLint", category: 'tools', icon: '🧹', proficiency: 4 },
+    // Design
+    { name: "Figma", category: 'design', icon: '✏️', proficiency: 4 },
+    { name: "Framer Motion", category: 'design', icon: '🎬', proficiency: 5 },
+    { name: "Adobe XD", category: 'design', icon: '🖌️', proficiency: 4 },
+    { name: "Sketch", category: 'design', icon: '🎨', proficiency: 3 },
+    { name: "InVision", category: 'design', icon: '🖥️', proficiency: 3 },
+    { name: "Principle", category: 'design', icon: '📐', proficiency: 3 },
   ];
+
+  // Group skills by category
+  const skillsByCategory = skills.reduce((acc, skill) => {
+    if (!acc[skill.category]) {
+      acc[skill.category] = [];
+    }
+    acc[skill.category].push(skill);
+    return acc;
+  }, {} as Record<string, Skill[]>);
+
+  const categoryTitles = {
+    frontend: { text: 'Frontend', darkColor: '#e0e7ff', lightColor: '#1e293b' },
+    backend: { text: 'Backend', darkColor: '#d1fae5', lightColor: '#064e3b' },
+    mobile: { text: 'Mobile', darkColor: '#fef3c7', lightColor: '#92400e' },
+    tools: { text: 'Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },
+    design: { text: 'Design', darkColor: '#fce7f3', lightColor: '#9d174d' }
+  };
 
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
+      animate(cursorOpacity, 1, { duration: 0.5 });
+    } else {
+      controls.start("hidden");
+      animate(cursorOpacity, 0, { duration: 0.3 });
     }
+  }, [isInView, controls, cursorOpacity]);
 
-    const animations: number[] = [];
+  // Mouse move handler for custom cursor
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
 
-    // Animation for the skill cards rows
-    containerRefs.current.forEach((container, index) => {
-      const content = contentRefs.current[index];
-      if (!container || !content) return;
-
-      let scrollAmount = 0;
-      const speed = 0.5 + (index * 0.1);
-
-      const animateScroll = () => {
-        scrollAmount += speed;
-        if (scrollAmount >= content.scrollWidth / 2) {
-          scrollAmount = 0;
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft = scrollAmount;
-        }
-        animations.push(requestAnimationFrame(animateScroll));
-      };
-
-      animations.push(requestAnimationFrame(animateScroll));
-    });
-
-    // Animation for the icons carousel
-    const iconsContainer = iconsContainerRef.current;
-    const iconsContent = iconsContentRef.current;
-    if (iconsContainer && iconsContent) {
-      let iconsScrollAmount = 0;
-      const iconsSpeed = 0.8;
-
-      const animateIconsScroll = () => {
-        iconsScrollAmount += iconsSpeed;
-        if (iconsScrollAmount >= iconsContent.scrollWidth / 2) {
-          iconsScrollAmount = 0;
-          iconsContainer.scrollLeft = 0;
-        } else {
-          iconsContainer.scrollLeft = iconsScrollAmount;
-        }
-        animations.push(requestAnimationFrame(animateIconsScroll));
-      };
-
-      animations.push(requestAnimationFrame(animateIconsScroll));
-    }
-
-    return () => {
-      animations.forEach(animationId => cancelAnimationFrame(animationId));
+      // Check if hovering over scroll container
+      if (scrollContainerRef.current?.contains(e.target as Node)) {
+        animate(cursorScale, 0.8, { duration: 0.2 });
+        animate(cursorRotate, isDragging ? 15 : 0, { duration: 0.3 });
+      } else {
+        animate(cursorScale, 1, { duration: 0.2 });
+        animate(cursorRotate, 0, { duration: 0.3 });
+      }
     };
-  }, [isInView, controls]);
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [cursorX, cursorY, cursorScale, cursorRotate, isDragging]);
+
+  // Drag to scroll functionality
+  const startDrag = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+    document.body.style.cursor = 'grabbing';
+    document.body.style.userSelect = 'none';
+  };
+
+  const duringDrag = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const endDrag = () => {
+    setIsDragging(false);
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -111,7 +145,7 @@ const SkillsSection = () => {
   };
 
   const itemVariants = {
-    hidden: { y: 10, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
@@ -120,175 +154,254 @@ const SkillsSection = () => {
         damping: 12,
         stiffness: 100
       }
+    },
+    hover: {
+      y: -5,
+      transition: { duration: 0.2 }
     }
   };
 
-  const iconVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
+  const categoryVariants = {
+    hidden: { opacity: 0, y: 30, rotateY: 15 },
     visible: {
-      scale: 1,
       opacity: 1,
+      y: 0,
+      rotateY: 0,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100
+        duration: 0.8,
+        ease: [0.16, 0.77, 0.47, 0.97]
+      }
+    },
+    hover: {
+      rotateY: 5,
+      rotateX: 2,
+      scale: 1.02,
+      transition: { duration: 0.3 }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 0.77, 0.47, 0.97]
       }
     }
   };
 
-  const getSkillColor = (category: string) => {
-    switch (category) {
-      case 'language': return '#6366f1';
-      case 'framework': return '#10b981';
-      case 'tool': return '#f59e0b';
-      case 'platform': return '#8b5cf6';
-      case 'design': return '#ec4899';
-      default: return '#6366f1';
-    }
+  const getCategoryColor = (category: string) => {
+    const colors = {
+      frontend: '#6366f1',
+      backend: '#10b981',
+      mobile: '#f59e0b',
+      tools: '#8b5cf6',
+      design: '#ec4899'
+    };
+    return colors[category as keyof typeof colors] || '#6366f1';
   };
 
-  // Split skills into 4 rows
-  const rows = [
-    skills.slice(0, 6),
-    skills.slice(6, 12),
-    skills.slice(12, 18),
-    skills.slice(18, 24)
-  ];
+  const getProficiencyWidth = (proficiency: number) => {
+    return `${(proficiency / 5) * 100}%`;
+  };
+
+  const getProficiencyColor = (proficiency: number, category: string) => {
+    return `color-mix(in srgb, ${getCategoryColor(category)}, white ${100 - (proficiency * 20)}%)`;
+  };
 
   return (
     <section id="skills" className="skills-section" ref={skillsRef}>
+      {/* Custom hand cursor */}
+      <motion.div
+        className="custom-cursor"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          opacity: cursorOpacity,
+          scale: cursorScale,
+          rotate: cursorRotate
+        }}
+      />
+
       <div className="skills-container">
-        <motion.div 
+        {/* 3D floating elements with reduced scale */}
+        <motion.div
+          className="floating-element frontend-element"
+          initial={{ x: -100, y: -100, opacity: 0, rotateZ: 15 }}
+          animate={controls}
+          variants={{
+            visible: {
+              x: 0,
+              y: 0,
+              opacity: 0.08,
+              rotateZ: 5,
+              transition: { delay: 0.2, duration: 1.5 }
+            }
+          }}
+        />
+
+        <motion.div
+          className="floating-element backend-element"
+          initial={{ x: 100, y: -50, opacity: 0, rotateZ: -10 }}
+          animate={controls}
+          variants={{
+            visible: {
+              x: 0,
+              y: 0,
+              opacity: 0.08,
+              rotateZ: -5,
+              transition: { delay: 0.4, duration: 1.5 }
+            }
+          }}
+        />
+
+        <motion.div
+          className="floating-element design-element"
+          initial={{ x: -50, y: 100, opacity: 0, rotateZ: 20 }}
+          animate={controls}
+          variants={{
+            visible: {
+              x: 0,
+              y: 0,
+              opacity: 0.08,
+              rotateZ: 10,
+              transition: { delay: 0.6, duration: 1.5 }
+            }
+          }}
+        />
+
+        {/* 3D grid background with reduced opacity */}
+        <motion.div
+          className="grid-bg"
+          initial={{ opacity: 0 }}
+          animate={controls}
+          variants={{
+            visible: {
+              opacity: 0.02,
+              transition: { delay: 0.8, duration: 1 }
+            }
+          }}
+        />
+
+        <motion.div
           className="skills-header"
-          initial={{ opacity: 0, y: 30 }}
+          initial="hidden"
+          animate={controls}
+          variants={headerVariants}
+        >
+          <h2 className="skills-title">
+            <span className="title-decorator">//</span> Skills & Expertise
+          </h2>
+          <p className="skills-subtitle">
+            Technologies I work with and my proficiency levels
+          </p>
+        </motion.div>
+
+        {/* Horizontal scrollable container with drag functionality */}
+        <div
+          className="skills-scroll-container"
+          ref={scrollContainerRef}
+          onMouseDown={startDrag}
+          onMouseMove={duringDrag}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+        >
+          <motion.div
+            className="skills-scroll-grid"
+            initial="hidden"
+            animate={controls}
+            variants={containerVariants}
+          >
+            {Object.entries(skillsByCategory).map(([category, skills]) => (
+              <motion.div
+                key={category}
+                className="skill-category"
+                variants={categoryVariants}
+                whileHover="hover"
+                style={{
+                  borderTopColor: getCategoryColor(category),
+                  transformStyle: 'preserve-3d',
+                  minWidth: '260px',
+                  perspective: '1000px'
+                }}
+              >
+                {/* 3D depth effect */}
+                <div className="category-depth" style={{
+                  background: `linear-gradient(135deg, ${getCategoryColor(category)} 0%, transparent 100%)`,
+                  opacity: 0.08
+                }} />
+
+                <div className="category-glow" style={{
+                  background: `radial-gradient(circle at center, ${getCategoryColor(category)} 0%, transparent 70%)`,
+                  opacity: 0.1
+                }} />
+
+                <div className="category-header">
+                  <h3 className="category-title" data-category={category}>
+                    {categoryTitles[category as keyof typeof categoryTitles].text}
+                  </h3>
+                  <div className="category-underline" style={{ backgroundColor: getCategoryColor(category) }} />
+                </div>
+
+                <div className="skills-list">
+                  {skills.map((skill) => (
+                    <motion.div
+                      key={skill.name}
+                      className="skill-item"
+                      variants={itemVariants}
+                      whileHover="hover"
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <div
+                        className="skill-icon-container"
+                        style={{
+                          background: `linear-gradient(135deg, ${getCategoryColor(category)} 0%, ${getProficiencyColor(skill.proficiency || 3, category)} 100%)`,
+                          boxShadow: `0 4px 15px ${getCategoryColor(category)}40`
+                        }}
+                      >
+                        <div className="skill-icon">{skill.icon}</div>
+                      </div>
+                      <div className="skill-details">
+                        <span className="skill-name">{skill.name}</span>
+                        {skill.proficiency && (
+                          <div className="skill-proficiency">
+                            <div
+                              className="proficiency-bar"
+                              style={{
+                                width: getProficiencyWidth(skill.proficiency),
+                                background: `linear-gradient(90deg, ${getCategoryColor(category)}, ${getProficiencyColor(skill.proficiency, category)})`,
+                                boxShadow: `0 0 8px ${getCategoryColor(category)}80`
+                              }}
+                            />
+                            <span className="proficiency-value">{skill.proficiency}/5</span>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Scroll hint for mobile */}
+        <motion.div
+          className="scroll-hint"
+          initial={{ opacity: 0 }}
           animate={controls}
           variants={{
             visible: {
               opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.8,
-                ease: [0.16, 0.77, 0.47, 0.97]
-              }
+              transition: { delay: 1.2 }
             }
           }}
         >
-          <h2 className="skills-title">
-            <span className="title-decorator">//</span> Skills & Technologies
-          </h2>
-          <p className="skills-subtitle">
-            Technologies I <span className="highlight">work</span> with
-          </p>
+          <span>← Scroll →</span>
         </motion.div>
-
-        <div className="skills-rows-container">
-          {rows.map((row, rowIndex) => (
-            <div 
-              key={`row-${rowIndex}`} 
-              className="skills-scroll-container"
-              ref={el => { containerRefs.current[rowIndex] = el; }}
-            >
-              <motion.div 
-                className="skills-scroll-content"
-                ref={el => { contentRefs.current[rowIndex] = el; }}
-                initial="hidden"
-                animate={controls}
-                variants={containerVariants}
-              >
-                {[...row, ...row].map((skill, index) => (
-                  <motion.div 
-                    key={`${skill.name}-${rowIndex}-${index}`}
-                    className="skill-card"
-                    variants={itemVariants}
-                    style={{ 
-                      backgroundColor: getSkillColor(skill.category),
-                      transformStyle: 'preserve-3d',
-                    }}
-                    whileHover={{
-                      scale: 1.05,
-                      rotateY: 10,
-                      boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
-                      zIndex: 1
-                    }}
-                  >
-                    <div className="skill-content">
-                      <span className="skill-icon">{skill.icon}</span>
-                      <span className="skill-name">{skill.name}</span>
-                      <div className="skill-glow" style={{ backgroundColor: getSkillColor(skill.category) }} />
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          ))}
-        </div>
-
-        {/* New Icons Carousel Section */}
-        <div className="skills-icons-section">
-          <motion.div 
-            className="skills-icons-header"
-            initial={{ opacity: 0, y: 20 }}
-            animate={controls}
-            variants={{
-              visible: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  delay: 0.4,
-                  duration: 0.6,
-                  ease: "easeOut"
-                }
-              }
-            }}
-          >          
-          </motion.div>
-
-          <div 
-            className="skills-icons-container"
-            ref={iconsContainerRef}
-          >
-            <motion.div 
-              className="skills-icons-content"
-              ref={iconsContentRef}
-              initial="hidden"
-              animate={controls}
-              variants={containerVariants}
-            >
-              {[...skills, ...skills].map((skill, index) => (
-                <motion.div 
-                  key={`icon-${skill.name}-${index}`}
-                  className="skill-icon-item"
-                  variants={iconVariants}
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: [0, 5, -5, 0],
-                    transition: { duration: 0.4 }
-                  }}
-                >
-                  <div className="skill-icon-emoji">{skill.icon}</div>
-                  <span className="skill-icon-name">{skill.name}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-
-        <motion.div 
-          className="skills-background-circle"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={controls}
-          variants={{
-            visible: {
-              opacity: 0.1,
-              scale: 1,
-              transition: {
-                delay: 0.5,
-                duration: 1.5,
-                ease: "easeOut"
-              }
-            }
-          }}
-        />
       </div>
     </section>
   );

@@ -1,168 +1,275 @@
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaDribbble, FaEnvelope } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react';
+import { 
+  Github, 
+  Linkedin, 
+  Twitter, 
+  Mail, 
+  ArrowUpRight,
+  Heart,
+  Star,
+  Code,
+  Globe,
+  Instagram,    
+  Phone,
+  Smartphone,
+  Monitor,
+  Cpu,
+  Database,
+  Code2,
+  Terminal,
+  GitBranch,
+  Figma
+} from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
-    const currentYear = new Date().getFullYear();
-    
-    const socialLinks = [
-        { icon: <FaGithub />, url: "https://github.com/brarpritam001", name: "GitHub" },
-        { icon: <FaLinkedin />, url: "https://linkedin.com", name: "LinkedIn" },
-        { icon: <FaTwitter />, url: "https://twitter.com", name: "Twitter" },
-        { icon: <FaDribbble />, url: "https://dribbble.com", name: "Dribbble" },
-        { icon: <FaEnvelope />, url: "mailto:brarpritam001@gmail.com", name: "Email" }
-    ];
-
-    const footerVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                delay: i * 0.1,
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        })
-    };
-
-    return (
-        <footer className="footer-container">
-            <div className="footer-background">
-                <div className="footer-grid"></div>
-                <div className="footer-gradient"></div>
-            </div>
-
-            <motion.div 
-                className="footer-content"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-                variants={footerVariants}
-            >
-                <div className="footer-top">
-                    <motion.div 
-                        className="footer-cta"
-                        variants={itemVariants}
-                        custom={0}
-                    >
-                        <h3>Let's work together</h3>
-                        <p>Have a project in mind or want to discuss opportunities? I'd love to hear from you.</p>
-                        
-                        <motion.a 
-                            href="mailto:brarpritam001@gmail.com" 
-                            className="cta-button"
-                            whileHover={{ 
-                                scale: 1.05,
-                                boxShadow: "0 10px 20px rgba(139, 92, 246, 0.3)"
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Get in touch
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                        </motion.a>
-                    </motion.div>
-
-                    <div className="footer-links">
-                        <motion.div 
-                            className="link-group"
-                            variants={itemVariants}
-                            custom={1}
-                        >
-                            <h4>Navigation</h4>
-                            <ul>
-                                <li><a href="#home">Home</a></li>
-                                <li><a href="#work">Work</a></li>
-                                <li><a href="#about">About</a></li>
-                                <li><a href="#process">Process</a></li>
-                                <li><a href="#contact">Contact</a></li>
-                            </ul>
-                        </motion.div>
-
-                        <motion.div 
-                            className="link-group"
-                            variants={itemVariants}
-                            custom={2}
-                        >
-                            <h4>Resources</h4>
-                            <ul>
-                                <li><a href="#styleguide">Style Guide</a></li>
-                                <li><a href="#licensing">Licensing</a></li>
-                                <li><a href="#changelog">Changelog</a></li>
-                                <li><a href="#404">404 Page</a></li>
-                            </ul>
-                        </motion.div>
-
-                        <motion.div 
-                            className="link-group"
-                            variants={itemVariants}
-                            custom={3}
-                        >
-                            <h4>Connect</h4>
-                            <ul>
-                                <li><a href="https://twitter.com">Twitter</a></li>
-                                <li><a href="https://linkedin.com">LinkedIn</a></li>
-                                <li><a href="https://dribbble.com">Dribbble</a></li>
-                                <li><a href="https://github.com/brarpritam001">GitHub</a></li>
-                            </ul>
-                        </motion.div>
-                    </div>
-                </div>
-
-                <div className="footer-bottom">
-                    <motion.div 
-                        className="footer-social"
-                        variants={itemVariants}
-                        custom={4}
-                    >
-                        {socialLinks.map((link, index) => (
-                            <motion.a
-                                key={index}
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={link.name}
-                                className="social-icon"
-                                whileHover={{ y: -5, color: "#8b5cf6" }}
-                                transition={{ duration: 0.2 }}
-                                custom={index}
-                                variants={itemVariants}
-                            >
-                                {link.icon}
-                            </motion.a>
-                        ))}
-                    </motion.div>
-
-                    <motion.div 
-                        className="footer-copyright"
-                        variants={itemVariants}
-                        custom={5}
-                    >
-                        <p>© {currentYear} Pritam. All rights reserved.</p>
-                        <div className="legal-links">
-                            <a href="#privacy">Privacy Policy</a>
-                            <span>•</span>
-                            <a href="#terms">Terms of Service</a>
-                        </div>
-                    </motion.div>
-                </div>
-            </motion.div>
-        </footer>
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
+  const currentYear = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
     );
+    
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  const socialLinks = [
+    { icon: Github, url: "https://github.com/brarpritam001", name: "GitHub", color: "#333"},
+    { icon: Linkedin, url: "https://www.linkedin.com/in/pritam-brar-669330368", name: "LinkedIn", color: "#0077B5" },
+    { icon: Twitter, url: "https://twitter.com/brarpritam001", name: "Twitter", color: "#1DA1F2" },
+    { icon: Instagram, url: "https://www.instagram.com/brarpritam001", name: "Instagram", color: "#E1306C" },    
+    { icon: Mail, url: "mailto:brarpritam001@gmail.com", name: "Email", color: "#EA4335" },
+    { icon: Phone, url: "tel:+918059366488", name: "Call", color: "#25D366" }
+  ];
+
+  const navigationLinks = [
+    { name: "Home", href: "/", icon: Globe },
+    { name: "Projects", href: "#projects", icon: Code },
+    { name: "Skills", href: "#skills", icon: Cpu },
+    { name: "Experience", href: "#about", icon: Terminal },
+    { name: "Contact", href: "#contact", icon: Star }
+  ];
+
+  const techStack = [
+    { name: "React", icon: Code2, description: "Frontend development" },
+    { name: "React Native", icon: Smartphone, description: "Mobile app development" },
+    { name: "Node", icon: Database, description: "Backend systems" },
+    { name: "TypeScript", icon: Terminal, description: "Type-safe coding" },
+    { name: "Git", icon: GitBranch, description: "Version control" },
+    { name: "UI/UX Design", icon: Figma, description: "Design systems" }
+  ];
+
+  return (
+    <footer 
+      className="footer-container"
+      onMouseMove={handleMouseMove}
+      ref={footerRef}
+    >
+      <div className="footer-background">
+        <div className="grid-pattern"></div>
+        <div className="gradient-orb gradient-orb-1"></div>
+        <div className="gradient-orb gradient-orb-2"></div>
+        <div className="gradient-orb gradient-orb-3"></div>
+        
+        <div 
+          className="mouse-follower"
+          style={{
+            transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`
+          }}
+        ></div>
+      </div>
+
+      <div className={`footer-content ${isVisible ? 'animate-in' : ''}`}>
+        <div className="footer-hero">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <Star className="star-icon" size={16} />
+              <span>Available for projects</span>
+            </div>
+            
+            <h2 className="hero-title">
+              Let's build something
+              <span className="gradient-text"> amazing together</span>
+            </h2>
+            
+            <p className="hero-description">
+              Full-stack developer specializing in web and mobile applications. 
+              I transform ideas into performant, scalable digital experiences 
+              with clean code and intuitive interfaces.
+            </p>
+            
+            <div className="hero-actions">
+              <a href="#contact" className="cta-primary">
+                <Mail size={20} />
+                <span>Get in touch</span>
+                <ArrowUpRight size={20} className="arrow-icon" />
+              </a>
+              
+              <a href="#projects" className="cta-secondary">
+                <Monitor size={20} />
+                <span>View my work</span>
+              </a>
+            </div>
+          </div>
+          
+          <div className="hero-visual">
+            <div className="visual-card">
+              <div className="card-header">
+                <div className="card-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div className="card-tabs">
+                  <span className="active">index.tsx</span>
+                  <span>styles.css</span>
+                  <span>package.json</span>
+                </div>
+              </div>
+              <div className="card-content">
+                <div className="code-lines">
+                  <div className="code-line"></div>
+                  <div className="code-line short"></div>
+                  <div className="code-line"></div>
+                  <div className="code-line short"></div>
+                  <div className="code-line"></div>
+                  <div className="code-line"></div>
+                  <div className="code-line short"></div>
+                </div>
+                <div className="tech-stack">
+                  {techStack.slice(0, 4).map((tech, index) => (
+                    <div key={index} className="tech-item">
+                      <tech.icon size={14} />
+                      <span>{tech.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-links">
+          <div className="link-group">
+            <h3 className="link-title">
+              <Globe size={20} />
+              Navigation
+            </h3>
+            <ul className="link-list">
+              {navigationLinks.map((link, index) => (
+                <li key={index} className="link-item">
+                  <a href={link.href} className="nav-link">
+                    <link.icon size={16} />
+                    <span>{link.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="link-group">
+            <h3 className="link-title">
+              <Cpu size={20} />
+              Tech Stack
+            </h3>
+            <ul className="link-list">
+              {techStack.map((tech, index) => (
+                <li key={index} className="link-item">
+                  <div className="tech-link">
+                    <tech.icon size={16} />
+                    <div>
+                      <span className="tech-name">{tech.name}</span>
+                      <span className="tech-description">{tech.description}</span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="link-group connect-group">
+            <h3 className="link-title">
+              <Heart size={20} />
+              Connect
+            </h3>
+            <div className="social-grid">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`social-link ${hoveredSocial === index ? 'hovered' : ''}`}
+                  style={{ '--social-color': social.color } as React.CSSProperties}
+                  onMouseEnter={() => setHoveredSocial(index)}
+                  onMouseLeave={() => setHoveredSocial(null)}
+                >
+                  <div className="social-icon-wrapper">
+                    <social.icon size={20} />
+                  </div>
+                  <div className="social-info">
+                    <span className="social-name">{social.name}</span>
+                  </div>
+                  <ArrowUpRight size={16} className="social-arrow" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <div className="footer-info">
+            <div className="brand-info">
+              <div className="brand-logo">
+                <div className="logo-icon">PB</div>
+                <span className="brand-name">Pritam Brar</span>
+              </div>
+              <p className="brand-tagline">
+                Full-stack developer crafting digital experiences
+              </p>
+            </div>
+            
+            <div className="footer-meta">
+              <div className="meta-item">
+                <span className="meta-label">Built with</span>
+                <Heart size={14} className="heart-icon" />
+                <span className="meta-value">& React</span>
+              </div>
+              <div className="divider">•</div>
+              <div className="meta-item">
+                <span>© {currentYear} All rights reserved</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="legal-links">
+            <a href="#privacy" className="legal-link">Privacy Policy</a>
+            <a href="#terms" className="legal-link">Terms of Service</a>
+            <a href="#cookies" className="legal-link">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

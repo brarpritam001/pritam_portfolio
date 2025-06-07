@@ -238,7 +238,7 @@ const HeroSection = () => {
                                 </svg>
                             </button>
                             <motion.img 
-                                src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3Bmc3R1ZGlvMTA5LTQ2NC1jLWpvYjE0NzVfMi5wbmc.png" 
+                                src="../assets/cv.jpg" 
                                 alt="CV" 
                                 className="cv-image"
                                 initial={{ opacity: 0, y: 20 }}
@@ -246,7 +246,7 @@ const HeroSection = () => {
                                 transition={{ delay: 0.2 }}
                             />
                         </div>
-                    </motion.div>
+                    </motion.div>   
                 )}
             </AnimatePresence>
 
