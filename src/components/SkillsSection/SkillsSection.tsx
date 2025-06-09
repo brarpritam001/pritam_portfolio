@@ -4,7 +4,7 @@ import './SkillsSection.css';
 
 interface Skill {
   name: string;
-  category: 'frontend' | 'backend' | 'mobile' | 'tools' | 'design';
+  category: 'frontend' | 'backend' | 'mobile' | 'tools' ;
   icon: string;
   proficiency?: number; // 1-5 scale
 }
@@ -41,8 +41,7 @@ const SkillsSection = () => {
     // Mobile
     { name: "React Native", category: 'mobile', icon: '📱', proficiency: 4 },
     { name: "Expo", category: 'mobile', icon: '📲', proficiency: 4 },
-    { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 3 },
-    { name: "Flutter", category: 'mobile', icon: '🦋', proficiency: 3 },
+    { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 3 },    
     { name: "Lottie", category: 'mobile', icon: '🎞️', proficiency: 3 },
     { name: "Xcode", category: 'mobile', icon: '🧰', proficiency: 2 },
     // Tools
@@ -50,15 +49,7 @@ const SkillsSection = () => {
     { name: "GitHub", category: 'tools', icon: '🐙', proficiency: 5 },
     { name: "Docker", category: 'tools', icon: '🐳', proficiency: 3 },
     { name: "Vite", category: 'tools', icon: '⚡', proficiency: 5 },
-    { name: "Postman", category: 'tools', icon: '📬', proficiency: 5 },
-    { name: "ESLint", category: 'tools', icon: '🧹', proficiency: 4 },
-    // Design
-    { name: "Figma", category: 'design', icon: '✏️', proficiency: 4 },
-    { name: "Framer Motion", category: 'design', icon: '🎬', proficiency: 5 },
-    { name: "Adobe XD", category: 'design', icon: '🖌️', proficiency: 4 },
-    { name: "Sketch", category: 'design', icon: '🎨', proficiency: 3 },
-    { name: "InVision", category: 'design', icon: '🖥️', proficiency: 3 },
-    { name: "Principle", category: 'design', icon: '📐', proficiency: 3 },
+    { name: "Postman", category: 'tools', icon: '📬', proficiency: 5 },        
   ];
 
   // Group skills by category
@@ -74,8 +65,7 @@ const SkillsSection = () => {
     frontend: { text: 'Frontend', darkColor: '#e0e7ff', lightColor: '#1e293b' },
     backend: { text: 'Backend', darkColor: '#d1fae5', lightColor: '#064e3b' },
     mobile: { text: 'Mobile', darkColor: '#fef3c7', lightColor: '#92400e' },
-    tools: { text: 'Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },
-    design: { text: 'Design', darkColor: '#fce7f3', lightColor: '#9d174d' }
+    tools: { text: 'Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },    
   };
 
   useEffect(() => {
@@ -197,8 +187,7 @@ const SkillsSection = () => {
       frontend: '#6366f1',
       backend: '#10b981',
       mobile: '#f59e0b',
-      tools: '#8b5cf6',
-      design: '#ec4899'
+      tools: '#8b5cf6',      
     };
     return colors[category as keyof typeof colors] || '#6366f1';
   };

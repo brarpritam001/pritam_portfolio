@@ -328,7 +328,7 @@ const HeroSection = () => {
                             </div>
                             <div className="stat-divider"></div>
                             <div className="stat-item">
-                                <span className="stat-number">40+</span>
+                                <span className="stat-number">100%</span>
                                 <span className="stat-label">Happy Clients</span>
                             </div>
                         </motion.div>
