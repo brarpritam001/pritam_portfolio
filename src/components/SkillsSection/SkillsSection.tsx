@@ -30,20 +30,13 @@ const SkillsSection = () => {
     { name: "JavaScript", category: 'frontend', icon: '🚀', proficiency: 5 },
     { name: "Tailwind CSS", category: 'frontend', icon: '🌬️', proficiency: 5 },
     { name: "HTML5", category: 'frontend', icon: '🌐', proficiency: 5 },
-    { name: "CSS3", category: 'frontend', icon: '🎨', proficiency: 5 },
-    // Backend
-    { name: "Node.js", category: 'backend', icon: '🟨', proficiency: 4 },
-    { name: "MongoDB", category: 'backend', icon: '🍃', proficiency: 4 },
-    { name: "REST APIs", category: 'backend', icon: '🔗', proficiency: 5 },
-    { name: "Firebase", category: 'backend', icon: '🔥', proficiency: 4 },
-    { name: "Express.js", category: 'backend', icon: '🚂', proficiency: 5 },
-    { name: "PostgreSQL", category: 'backend', icon: '🐘', proficiency: 4 },
+    { name: "CSS3", category: 'frontend', icon: '🎨', proficiency: 5 },  
     // Mobile
     { name: "React Native", category: 'mobile', icon: '📱', proficiency: 4 },
     { name: "Expo", category: 'mobile', icon: '📲', proficiency: 4 },
     { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 3 },    
     { name: "Lottie", category: 'mobile', icon: '🎞️', proficiency: 3 },
-    { name: "Xcode", category: 'mobile', icon: '🧰', proficiency: 2 },
+    { name: "Xcode", category: 'mobile', icon: '🧰', proficiency: 2 },  
     // Tools
     { name: "Git", category: 'tools', icon: '🔀', proficiency: 5 },
     { name: "GitHub", category: 'tools', icon: '🐙', proficiency: 5 },

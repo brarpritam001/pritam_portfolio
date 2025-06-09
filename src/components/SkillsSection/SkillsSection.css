@@ -9,6 +9,7 @@
 }
 
 .skills-section {
+  display: flex;
   position: relative;
   padding: 4rem 0;
   background-color: #f8fafc;
@@ -17,8 +18,7 @@
   perspective: 1000px;
 }
 
-.skills-container {
-  /* max-width: 1200px; */
+.skills-container {  
   margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;

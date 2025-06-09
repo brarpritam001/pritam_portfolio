@@ -1,21 +1,32 @@
-/* HeroSection.css */
-.hero-container {
+/* Base Styles */
+.pritam-hero-container {
     position: relative;
     min-height: 100vh;
     overflow: hidden;
     color: white;
+    isolation: isolate;
 }
 
-.hero-background {
+.pritam-hero-background {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 0;
+    z-index: -1;
 }
 
-.three-canvas {
+.pritam-galaxy-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.pritam-three-canvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -24,90 +35,35 @@
     opacity: 0.3;
 }
 
-/* .grid-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: gridMove 20s linear infinite;
-} */
-
-@keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-}
-
-.gradient-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    animation: float 8s ease-in-out infinite;
-    opacity: 0.7;
-}
-
-.orb-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-    top: -100px;
-    left: -100px;
-    animation-delay: 0s;
-}
-
-.orb-2 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%);
-    top: 50%;
-    right: -80px;
-    animation-delay: -2s;
-}
-
-.orb-3 {
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation-delay: -4s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-}
-
-.hero-section {
+/* Hero Content */
+.pritam-hero-section {
     position: relative;
     z-index: 1;
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding: 0 2rem;
+    padding: 2rem 1.5rem;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
-.hero-content {
+.pritam-hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 3rem;
-    max-width: 1200px;
-    margin: 0 auto;
     width: 100%;
     align-items: center;
 }
 
-.hero-text-section {
-    padding-top: 10px;
+.pritam-hero-text-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     color: white;
+    order: 2;
 }
 
-.hero-badge {
+.pritam-hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -122,27 +78,28 @@
     backdrop-filter: blur(10px);
 }
 
-.badge-dot {
+.pritam-badge-dot {
     width: 8px;
     height: 8px;
     background: #10b981;
     border-radius: 50%;
-    animation: pulse 2s infinite;
+    animation: pritam-pulse 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes pritam-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
 
-.hero-title {
-    font-size: 3.5rem;
+.pritam-hero-title {
+    font-size: 2.5rem;
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 0.1rem;
+    text-align: left;
 }
 
-.title-greeting {
+.pritam-title-greeting {
     display: block;
     font-size: 1.25rem;
     color: #8b5cf6;
@@ -150,63 +107,66 @@
     font-weight: 500;
 }
 
-.title-name {
+.pritam-title-name {
     display: block;
     background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #3b82f6 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: gradientShift 4s ease infinite;
+    animation: pritam-gradientShift 4s ease infinite;
 }
 
-@keyframes gradientShift {
+@keyframes pritam-gradientShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-.hero-subtitle {
-    font-size: 1.5rem;
+.pritam-hero-subtitle {
+    font-size: 1.25rem;
     margin-bottom: 1.5rem;
     height: 2.5rem;
     display: flex;
     align-items: center;
     color: #e2e8f0;
+    text-align: left;
 }
 
-.typing-wrapper {
+.pritam-typing-wrapper {
     display: flex;
     align-items: center;
 }
 
-.typing-cursor {
+.pritam-typing-cursor {
     width: 3px;
     height: 1.5rem;
     background: #8b5cf6;
     margin-left: 4px;
-    animation: blink 1s infinite;
+    animation: pritam-blink 1s infinite;
 }
 
-@keyframes blink {
+@keyframes pritam-blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
 }
 
-.hero-description {
+.pritam-hero-description {
     font-size: 1rem;
     line-height: 1.7;
     color: #94a3b8;
     margin-bottom: 1.5rem;
     max-width: 500px;
+    text-align: left;
 }
 
-.hero-actions {
+.pritam-hero-actions {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
-.btn-primary, .btn-secondary {
+.pritam-btn-primary, .pritam-btn-secondary {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -219,13 +179,13 @@
     font-size: 0.9375rem;
 }
 
-.btn-primary {
+.pritam-btn-primary {
     background: linear-gradient(135deg, #8b5cf6, #ec4899);
     color: white;
     box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
 }
 
-.btn-secondary {
+.pritam-btn-secondary {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -233,51 +193,56 @@
     backdrop-filter: blur(10px);
 }
 
-.hero-stats {
+.pritam-hero-stats {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.stat-item {
+.pritam-stat-item {
     text-align: center;
 }
 
-.stat-number {
+.pritam-stat-number {
     display: block;
     font-size: 1.5rem;
     font-weight: 700;
     color: #8b5cf6;
 }
 
-.stat-label {
+.pritam-stat-label {
     font-size: 0.8125rem;
     color: #94a3b8;
     margin-top: 0.25rem;
 }
 
-.stat-divider {
+.pritam-stat-divider {
     width: 1px;
     height: 2.5rem;
     background: rgba(255, 255, 255, 0.1);
 }
 
-.hero-visual-section {
+/* Visual Section */
+.pritam-hero-visual-section {
     display: flex;
     justify-content: center;
     align-items: center;
     perspective: 1000px;
+    order: 1;
 }
 
-.hero-card {
+.pritam-hero-card {
     position: relative;
-    width: 320px;
+    width: 100%;
+    max-width: 320px;
     height: 420px;
     transform-style: preserve-3d;
     cursor: pointer;
+    margin: 0 auto;
 }
 
-.card-inner {
+.pritam-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -285,7 +250,7 @@
     transition: transform 0.6s;
 }
 
-.card-face {
+.pritam-card-face {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -293,14 +258,14 @@
     border-radius: 1.25rem;
     padding: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
-.card-face::before {
+.pritam-card-face::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -309,15 +274,15 @@
     height: 200%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
     transform: rotate(45deg);
-    animation: shine 3s infinite;
+    animation: pritam-shine 3s infinite;
 }
 
-@keyframes shine {
+@keyframes pritam-shine {
     0% { transform: translateX(-100%) rotate(45deg); }
     100% { transform: translateX(100%) rotate(45deg); }
 }
 
-.card-front {
+.pritam-card-front {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -326,35 +291,35 @@
     color: white;
 }
 
-.card-back {
+.pritam-card-back {
     transform: rotateY(180deg);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.profile-avatar {
+.pritam-profile-avatar {
     position: relative;
     width: 130px;
     height: 130px;
     margin-bottom: 1.5rem;
 }
 
-.avatar-ring {
+.pritam-avatar-ring {
     position: absolute;
     inset: -4px;
     border-radius: 50%;
     background: linear-gradient(135deg, #8b5cf6, #ec4899, #3b82f6);
-    animation: rotate 6s linear infinite;
+    animation: pritam-rotate 6s linear infinite;
     z-index: 0;
 }
 
-@keyframes rotate {
+@keyframes pritam-rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-.avatar-image {
+.pritam-avatar-image {
     position: relative;
     width: 100%;
     height: 100%;
@@ -365,7 +330,7 @@
     overflow: hidden;
 }
 
-.avatar-image::after {
+.pritam-avatar-image::after {
     content: '';
     position: absolute;
     top: 0;
@@ -376,7 +341,7 @@
     opacity: 0.9;
 }
 
-.avatar-status {
+.pritam-avatar-status {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -388,26 +353,26 @@
     z-index: 2;
 }
 
-.card-content h3 {
+.pritam-card-content h3 {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
-.card-content p {
+.pritam-card-content p {
     color: #94a3b8;
     margin-bottom: 1.25rem;
     font-size: 0.9375rem;
 }
 
-.skill-tags {
+.pritam-skill-tags {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.skill-tags span {
+.pritam-skill-tags span {
     padding: 0.375rem 0.75rem;
     background: rgba(139, 92, 246, 0.2);
     border: 1px solid rgba(139, 92, 246, 0.3);
@@ -416,14 +381,14 @@
     font-weight: 500;
 }
 
-.design-tools-grid {
+.pritam-design-tools-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
     width: 100%;
 }
 
-.design-tool-item {
+.pritam-design-tool-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +396,7 @@
     cursor: pointer;
 }
 
-.tool-icon {
+.pritam-tool-icon {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -445,20 +410,20 @@
     transition: all 0.3s ease;
 }
 
-.tool-name {
+.pritam-tool-name {
     font-size: 0.6875rem;
     color: #e2e8f0;
     text-align: center;
 }
 
-.floating-bubble {
+.pritam-floating-bubble {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 50px;
     height: 50px;
     background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
@@ -470,7 +435,7 @@
     z-index: 10;
 }
 
-.bubble-tooltip {
+.pritam-bubble-tooltip {
     position: absolute;
     bottom: -30px;
     left: 50%;
@@ -485,11 +450,11 @@
     white-space: nowrap;
 }
 
-.floating-bubble:hover .bubble-tooltip {
+.pritam-floating-bubble:hover .pritam-bubble-tooltip {
     opacity: 1;
 }
 
-.scroll-indicator {
+.pritam-scroll-indicator {
     position: absolute;
     bottom: 1.5rem;
     left: 50%;
@@ -501,18 +466,18 @@
     cursor: pointer;
 }
 
-.scroll-text {
+.pritam-scroll-text {
     font-size: 0.8125rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
 
-.scroll-arrow {
+.pritam-scroll-arrow {
     color: #8b5cf6;
 }
 
 /* CV Modal Styles */
-.cv-modal {
+.pritam-cv-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -527,7 +492,7 @@
     backdrop-filter: blur(10px);
 }
 
-.cv-modal-content {
+.pritam-cv-modal-content {
     position: relative;
     max-width: 90%;
     max-height: 90vh;
@@ -538,7 +503,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.cv-modal-close {
+.pritam-cv-modal-close {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
@@ -556,108 +521,99 @@
     transition: all 0.3s ease;
 }
 
-.cv-modal-close:hover {
+.pritam-cv-modal-close:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.cv-image {
+.pritam-cv-image {
     max-width: 100%;
     max-height: 80vh;
     border-radius: 0.5rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 1024px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        text-align: center;
+/* Responsive Styles */
+@media (min-width: 768px) {
+    .pritam-hero-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
     }
-
-    .hero-title {
+    
+    .pritam-hero-text-section {
+        order: 1;
+    }
+    
+    .pritam-hero-visual-section {
+        order: 2;
+    }
+    
+    .pritam-hero-title {
         font-size: 3rem;
     }
-
-    .hero-actions {
-        justify-content: center;
+    
+    .pritam-hero-subtitle {
+        font-size: 1.5rem;
     }
-
-    .hero-stats {
-        justify-content: center;
-    }
-
-    .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-section {
-        padding: 0 1rem;
-    }
-
-    .hero-title {
-        font-size: 2.25rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.25rem;
-        height: 2rem;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn-primary, .btn-secondary {
-        width: 100%;
-        max-width: 240px;
-    }
-
-    .hero-card {
-        width: 280px;
-        height: 380px;
-    }
-
-    .hero-stats {
-        gap: 0.75rem;
-    }
-
-    .stat-number {
-        font-size: 1.25rem;
-    }
-
-    .cv-modal-content {
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .title-greeting {
-        font-size: 1rem;
-    }
-
-    .hero-subtitle {
+    
+    .pritam-hero-description {
         font-size: 1.125rem;
     }
+}
 
-    .hero-description {
+@media (min-width: 1024px) {
+    .pritam-hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .pritam-hero-card {
+        max-width: 350px;
+        height: 450px;
+    }
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 480px) {
+    .pritam-hero-title {
+        font-size: 2rem;
+    }
+    
+    .pritam-title-greeting {
+        font-size: 1rem;
+    }
+    
+    .pritam-hero-subtitle {
+        font-size: 1.125rem;
+        height: 2rem;
+    }
+    
+    .pritam-hero-description {
         font-size: 0.9375rem;
     }
-
-    .hero-card {
-        width: 260px;
-        height: 360px;
+    
+    .pritam-hero-actions {
+        flex-direction: column;
+        width: 100%;
     }
-
-    .profile-avatar {
+    
+    .pritam-btn-primary, .pritam-btn-secondary {
+        width: 100%;
+    }
+    
+    .pritam-hero-stats {
+        gap: 0.75rem;
+    }
+    
+    .pritam-stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .pritam-hero-card {
+        height: 380px;
+    }
+    
+    .pritam-profile-avatar {
         width: 110px;
         height: 110px;
     }
+    
 }
