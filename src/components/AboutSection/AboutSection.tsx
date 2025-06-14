@@ -11,16 +11,13 @@ const AboutSection = () => {
         if (isAboutInView) aboutControls.start("visible");
     }, [isAboutInView, aboutControls]);
 
-    // Enhanced animations with 3D perspective
     const fadeIn = {
-        hidden: { opacity: 0, y: 20, rotateX: 5, scale: 0.98 },
+        hidden: { opacity: 0, y: 20 },
         visible: { 
             opacity: 1, 
             y: 0,
-            rotateX: 0,
-            scale: 1,
             transition: {
-                duration: 0.7,
+                duration: 0.5,
                 ease: [0.16, 0.77, 0.47, 0.97]
             }
         }
@@ -31,8 +28,8 @@ const AboutSection = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
+                staggerChildren: 0.15,
+                delayChildren: 0.2
             }
         }
     };
@@ -40,22 +37,14 @@ const AboutSection = () => {
     const slideInFromLeft = {
         hidden: { 
             opacity: 0, 
-            x: -100, 
-            rotateY: 20,
-            rotateX: 5,
-            scale: 0.95,
-            transformPerspective: 1000
+            x: -50
         },
         visible: { 
             opacity: 1, 
             x: 0,
-            rotateY: 0,
-            rotateX: 0,
-            scale: 1,
             transition: {
-                duration: 0.9,
-                ease: [0.16, 0.77, 0.47, 0.97],
-                rotateY: { duration: 1.1 }
+                duration: 0.6,
+                ease: [0.16, 0.77, 0.47, 0.97]
             }
         }
     };
@@ -63,60 +52,22 @@ const AboutSection = () => {
     const slideInFromRight = {
         hidden: { 
             opacity: 0, 
-            x: 100, 
-            rotateY: -20,
-            rotateX: 5,
-            scale: 0.95,
-            transformPerspective: 1000
+            x: 50
         },
         visible: { 
             opacity: 1, 
             x: 0,
-            rotateY: 0,
-            rotateX: 0,
-            scale: 1,
             transition: {
-                duration: 0.9,
-                ease: [0.16, 0.77, 0.47, 0.97],
-                rotateY: { duration: 1.1 }
+                duration: 0.6,
+                ease: [0.16, 0.77, 0.47, 0.97]
             }
         }
     };
 
     const cardHover = {
         hover: {
-            y: -15,
-            rotateZ: -1,
-            rotateX: 3,
-            scale: 1.02,
-            boxShadow: "0 35px 60px -12px rgba(99, 102, 241, 0.3), 0 15px 25px -5px rgba(139, 92, 246, 0.2)",
-            transition: {
-                duration: 0.4,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const statHover = {
-        hover: {
-            scale: 1.08,
-            y: -8,
-            rotateX: 3,
-            rotateY: 2,
-            boxShadow: "0 25px 40px -10px rgba(99, 102, 241, 0.4), 0 15px 20px -5px rgba(139, 92, 246, 0.3)",
-            transition: {
-                duration: 0.4,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const skillHover = {
-        hover: {
-            scale: 1.1,
-            y: -3,
-            rotateZ: 5,
-            backgroundColor: "rgba(99, 102, 241, 0.15)",
+            y: -5,
+            boxShadow: "0 15px 30px -5px rgba(99, 102, 241, 0.2)",
             transition: {
                 duration: 0.3,
                 ease: "easeOut"
@@ -124,24 +75,34 @@ const AboutSection = () => {
         }
     };
 
-    const floatingAnimation = {
-        float: {
-            y: [0, -15, 0],
-            rotate: [0, 5, 0],
+    const statHover = {
+        hover: {
+            scale: 1.03,
+            y: -3,
+            boxShadow: "0 15px 25px -5px rgba(99, 102, 241, 0.2)",
             transition: {
-                duration: 8,
-                ease: "easeInOut",
-                repeat: Infinity
+                duration: 0.3,
+                ease: "easeOut"
             }
         }
     };
 
-    const pulseAnimation = {
-        pulse: {
-            scale: [1, 1.1, 1],
-            opacity: [0.7, 1, 0.7],
+    const skillHover = {
+        hover: {
+            scale: 1.05,
+            backgroundColor: "rgba(99, 102, 241, 0.15)",
             transition: {
-                duration: 4,
+                duration: 0.2,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const floatingAnimation = {
+        float: {
+            y: [0, -10, 0],
+            transition: {
+                duration: 6,
                 ease: "easeInOut",
                 repeat: Infinity
             }
@@ -150,16 +111,15 @@ const AboutSection = () => {
 
     return (
         <section id="about" className="about-section" ref={aboutRef}>
-            {/* Enhanced 3D Background Elements */}
             <motion.div 
                 className="background-shape shape-1"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={aboutControls}
                 variants={{
                     visible: { 
-                        opacity: 1,
+                        opacity: 0.3,
                         scale: 1,
-                        transition: { delay: 0.5, duration: 1.2 }
+                        transition: { delay: 0.3, duration: 0.8 }
                     }
                 }}
             />
@@ -169,21 +129,9 @@ const AboutSection = () => {
                 animate={aboutControls}
                 variants={{
                     visible: { 
-                        opacity: 1,
+                        opacity: 0.2,
                         scale: 1,
-                        transition: { delay: 0.8, duration: 1.2 }
-                    }
-                }}
-            />
-            <motion.div 
-                className="background-shape shape-3"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={aboutControls}
-                variants={{
-                    visible: { 
-                        opacity: 1,
-                        scale: 1,
-                        transition: { delay: 1.1, duration: 1.2 }
+                        transition: { delay: 0.5, duration: 0.8 }
                     }
                 }}
             />
@@ -206,29 +154,24 @@ const AboutSection = () => {
                             >
                                 About Me
                                 <span className="title-decoration"></span>
-                                <motion.span 
-                                    className="title-glow"
-                                    animate="pulse"
-                                    variants={pulseAnimation}
-                                ></motion.span>
                             </motion.h2>
                             <motion.p 
                                 className="section-subtitle"
                                 variants={fadeIn}
                             >
-                                My journey in software development
+                                FrontEnd Developer | UI/UX Specialist
                             </motion.p>
                         </div>
 
                         <div className="about-paragraphs">
                             <motion.p variants={fadeIn}>
-                                I'm a passionate full-stack developer with 1.5+ years of hands-on experience building cutting-edge applications across web, mobile, and desktop platforms.
+                                I'm a passionate full-stack developer specializing in web and mobile application development with 1.5+ years of experience creating responsive, user-centric applications from concept to deployment.
                             </motion.p>
                             <motion.p variants={fadeIn}>
-                                Specializing in React, Node.js, and modern JavaScript frameworks, I create performant, accessible, and responsive applications with intuitive user experiences that drive real business value.
+                                My expertise spans the entire development lifecycle - from crafting pixel-perfect UI/UX designs to implementing robust frontend architectures and seamless API integrations that power modern digital experiences.
                             </motion.p>
                             <motion.p variants={fadeIn}>
-                                My approach combines technical expertise with creative problem-solving and user-centered design principles to deliver solutions that not only meet requirements but exceed user expectations.
+                                I combine technical proficiency with an eye for design, ensuring applications are not only functional but also deliver intuitive, engaging user experiences that drive business growth.
                             </motion.p>
                         </div>
 
@@ -243,9 +186,8 @@ const AboutSection = () => {
                                 initial="hidden"
                                 animate={aboutControls}
                             >
-                                <div className="stat-number">1.5+</div>
-                                <div className="stat-label">Years Experience</div>
-                                <div className="stat-decoration"></div>
+                                <div className="stat-number">15+</div>
+                                <div className="stat-label">Web Apps</div>
                             </motion.div>
                             <motion.div 
                                 className="stat-item"
@@ -254,9 +196,8 @@ const AboutSection = () => {
                                 initial="hidden"
                                 animate={aboutControls}
                             >
-                                <div className="stat-number">70+</div>
-                                <div className="stat-label">Projects Completed</div>
-                                <div className="stat-decoration"></div>
+                                <div className="stat-number">10+</div>
+                                <div className="stat-label">Mobile Apps</div>
                             </motion.div>
                             <motion.div 
                                 className="stat-item"
@@ -265,27 +206,25 @@ const AboutSection = () => {
                                 initial="hidden"
                                 animate={aboutControls}
                             >
-                                <div className="stat-number">100%</div>
-                                <div className="stat-label">Client Satisfaction</div>
-                                <div className="stat-decoration"></div>
+                                <div className="stat-number">50+</div>
+                                <div className="stat-label">API Integrations</div>
                             </motion.div>
                         </motion.div>
 
-                        {/* Enhanced Skills Section */}
                         <motion.div 
                             className="skills-showcase"
                             variants={fadeIn}
                         >                            
                             <div className="skills-grid">
-                                {['React', 'Node.js', 'TypeScript', 'Next.js', 'MongoDB', 'Express.js', 'Tailwind CSS', 'Git'].map((skill, index) => (
+                                {['React', 'React Native', 'Node.js', 'TypeScript', 'Next.js', 'MongoDB', 'Express.js', 'Tailwind CSS', 'Figma', 'REST APIs', 'GraphQL', 'Redux'].map((skill, index) => (
                                     <motion.span 
                                         key={skill}
                                         className="skill-tag"
                                         whileHover="hover"
                                         variants={skillHover}
-                                        initial={{ opacity: 0, y: 20 }}
+                                        initial={{ opacity: 0, y: 10 }}
                                         animate={aboutControls}
-                                        transition={{ delay: 0.1 * index }}
+                                        transition={{ delay: 0.05 * index }}
                                     >
                                         {skill}
                                     </motion.span>
@@ -313,38 +252,33 @@ const AboutSection = () => {
                             >
                                 <div className="experience-content">
                                     <div className="experience-header-content">
-                                        <div className="experience-date">2024  - Present</div>
+                                        <div className="experience-date">2024 - Present</div>
                                         <div className="experience-status">Current Role</div>
                                     </div>
-                                    <h4 className="experience-role">Full Stack Developer</h4>
+                                    <h4 className="experience-role">FrontEnd Developer (Web & Mobile)</h4>
                                     <div className="experience-company">Plus Distribution Pvt. Ltd.</div>
                                     <p className="experience-description">
-                                        Leading the development of scalable web applications and implementing modern development practices. Responsible for full-stack development using React, Node.js, and cloud technologies, resulting in improved system performance and user experience.
+                                        Leading the development of responsive web and mobile applications with a focus on UI/UX excellence and seamless API integrations. Responsible for full-stack development using modern technologies.
                                     </p>
                                     
                                     <div className="experience-highlights">
-                                        <h5>Key Achievements:</h5>
+                                        <h5>Key Responsibilities & Achievements:</h5>
                                         <ul>
-                                            <li>Developed responsive web applications improving user engagement by 45%</li>
-                                            <li>Implemented modern development workflows and CI/CD pipelines</li>
-                                            <li>Collaborated with cross-functional teams to deliver high-quality solutions</li>
-                                            <li>Optimized application performance and maintained code quality standards</li>
+                                            <li>Developed responsive web applications with React/Next.js improving user engagement by 45%</li>
+                                            <li>Built cross-platform mobile applications using React Native with native-like performance</li>
+                                            <li>Designed and implemented RESTful APIs and integrated third-party APIs for enhanced functionality</li>
+                                            <li>Created pixel-perfect UI components from Figma designs with attention to accessibility</li>
+                                            <li>Optimized application performance through code splitting, lazy loading, and efficient state management</li>
+                                            <li>Implemented CI/CD pipelines for automated testing and deployment</li>
                                         </ul>
                                     </div>
-                                                                      
-                                </div>
-                                <div className="experience-decoration">
-                                    <div className="decoration-circle"></div>
-                                    <div className="decoration-line"></div>
                                 </div>
                             </motion.div>                        
-                           
                         </AnimatePresence>
                     </motion.div>
                 </motion.div>
             </div>
 
-            {/* Enhanced floating 3D elements */}
             <motion.div 
                 className="floating-element element-1"
                 animate="float"
@@ -352,11 +286,6 @@ const AboutSection = () => {
             />
             <motion.div 
                 className="floating-element element-2"
-                animate="float"
-                variants={floatingAnimation}
-            />
-            <motion.div 
-                className="floating-element element-3"
                 animate="float"
                 variants={floatingAnimation}
             />

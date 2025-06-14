@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { motion, useAnimation, useInView, useMotionValue, useTransform, AnimatePresence, type HTMLMotionProps } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Stars, Float } from '@react-three/drei';
-import * as THREE from 'three';
+import { motion, useAnimation, useInView, useMotionValue, useTransform, type HTMLMotionProps } from 'framer-motion';
+import { Canvas,  } from '@react-three/fiber';
+import { Stars,  } from '@react-three/drei';
 import './HeroSection.css'
 
 type TechBubble = {
@@ -18,38 +17,11 @@ type TechBubble = {
   icon: string;
 };
 
-const TechSphere = ({ color, position }: { color: string; position: [number, number, number] }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((_state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.2;
-      meshRef.current.rotation.y += delta * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-      <mesh ref={meshRef} position={position}>
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial 
-          color={color} 
-          emissive={color} 
-          emissiveIntensity={0.5}
-          roughness={0.2}
-          metalness={0.8}
-        />
-      </mesh>
-    </Float>
-  );
-};
-
 const PritamHeroSection = () => {
     const [typedText, setTypedText] = useState('');
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [typingSpeed, setTypingSpeed] = useState(150);
-    const [showCV, setShowCV] = useState(false);
     const [flipCard, setFlipCard] = useState(false);
     
     const pritamHeroRef = useRef<HTMLDivElement>(null);
@@ -161,21 +133,18 @@ const PritamHeroSection = () => {
         }
     };
 
-  const techBubbles: TechBubble[] = [
-    { name: 'React', position: { top: '10%', left: '15%' }, delay: 0.6, color: '#61dafb', icon: '⚛️' },
-    { name: 'TypeScript', position: { bottom: '30%', left: '5%' }, delay: 1.0, color: '#3178c6', icon: '📘' },
-    { name: 'React Native', position: { bottom: '15%', right: '20%' }, delay: 1.2, color: '#02569B', icon: '📱' },
-    { name: 'Tailwind CSS', position: { top: '5%', right: '25%' }, delay: 0.9, color: '#38B2AC', icon: '💨' },
-    { name: 'Firebase', position: { top: '20%', right: '10%' }, delay: 0.8, color: '#FFCA28', icon: '🔥' },
-    { name: 'GitHub', position: { top: '15%', left: '40%' }, delay: 0.85, color: '#181717', icon: '🐙' },
-];
+    const techBubbles: TechBubble[] = [
+        { name: 'React', position: { top: '10%', left: '15%' }, delay: 0.6, color: '#61dafb', icon: '⚛️' },
+        { name: 'TypeScript', position: { bottom: '30%', left: '5%' }, delay: 1.0, color: '#3178c6', icon: '📘' },
+        { name: 'React Native', position: { bottom: '15%', right: '20%' }, delay: 1.2, color: '#02569B', icon: '📱' },
+        { name: 'Tailwind CSS', position: { top: '5%', right: '25%' }, delay: 0.9, color: '#38B2AC', icon: '💨' },
+        { name: 'Firebase', position: { top: '20%', right: '10%' }, delay: 0.8, color: '#FFCA28', icon: '🔥' },
+        { name: 'GitHub', position: { top: '15%', left: '40%' }, delay: 0.85, color: '#181717', icon: '🐙' },
+    ];
 
     const handleDownloadCV = () => {
-        setShowCV(true);
-    };
-
-    const handleCloseCV = () => {
-        setShowCV(false);
+        // Replace '/path/to/your-cv.pdf' with your actual PDF path
+        window.open('/pritam_portfolio/public/Pritam_Resume.pdf', '_blank');
     };
 
     const handleFlipCard = () => {
@@ -210,44 +179,9 @@ const PritamHeroSection = () => {
                 <Canvas camera={{ position: [0, 0, 5], fov: 45 }} className="pritam-three-canvas">
                     <ambientLight intensity={0.5} />
                     <pointLight position={[10, 10, 10]} />
-                    <TechSphere color="#9d56f7" position={[-3, 1, 0]} />
-                    <TechSphere color="#56a0f7" position={[3, -1, 0]} />
-                    <TechSphere color="#f756a0" position={[0, 2, -2]} />
                     <Stars radius={50} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
                 </Canvas>
             </div>
-
-            <AnimatePresence>
-                {showCV && (
-                    <motion.div 
-                        className="pritam-cv-modal"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    >
-                        <div className="pritam-cv-modal-content">
-                            <button 
-                                className="pritam-cv-modal-close"
-                                onClick={handleCloseCV}
-                                aria-label="Close CV modal"
-                                title="Close"
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </button>
-                            <motion.img 
-                                src="../assets/cv.jpg" 
-                                alt="CV" 
-                                className="pritam-cv-image"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                            />
-                        </div>
-                    </motion.div>   
-                )}
-            </AnimatePresence>
 
             <section className="pritam-hero-section" ref={pritamHeroRef}>
                 <motion.div 

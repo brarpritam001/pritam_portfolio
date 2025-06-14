@@ -4,7 +4,7 @@ import './SkillsSection.css';
 
 interface Skill {
   name: string;
-  category: 'frontend' | 'backend' | 'mobile' | 'tools' ;
+  category: 'languages' | 'frontend' | 'mobile' | 'devops' | 'cloud';
   icon: string;
   proficiency?: number; // 1-5 scale
 }
@@ -24,25 +24,36 @@ const SkillsSection = () => {
   const cursorRotate = useMotionValue(0);
 
   const skills: Skill[] = [
+    // Languages
+    { name: "HTML5", category: 'languages', icon: '🌐', proficiency: 5 },
+    { name: "CSS3", category: 'languages', icon: '🎨', proficiency: 5 },
+    { name: "JavaScript (ES6+)", category: 'languages', icon: '🚀', proficiency: 5 },
+    { name: "TypeScript", category: 'languages', icon: '📘', proficiency: 5 },
+    
     // Frontend
     { name: "React", category: 'frontend', icon: '⚛️', proficiency: 5 },
-    { name: "TypeScript", category: 'frontend', icon: '📘', proficiency: 5 },
-    { name: "JavaScript", category: 'frontend', icon: '🚀', proficiency: 5 },
+    { name: "Next.js", category: 'frontend', icon: '⏭️', proficiency: 4 },
+    { name: "Angular", category: 'frontend', icon: '🅰️', proficiency: 4 },
     { name: "Tailwind CSS", category: 'frontend', icon: '🌬️', proficiency: 5 },
-    { name: "HTML5", category: 'frontend', icon: '🌐', proficiency: 5 },
-    { name: "CSS3", category: 'frontend', icon: '🎨', proficiency: 5 },  
+    { name: "Material UI", category: 'frontend', icon: '🧩', proficiency: 4 },
+    { name: "Bootstrap", category: 'frontend', icon: '🎀', proficiency: 4 },
+    
     // Mobile
-    { name: "React Native", category: 'mobile', icon: '📱', proficiency: 4 },
-    { name: "Expo", category: 'mobile', icon: '📲', proficiency: 4 },
-    { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 3 },    
-    { name: "Lottie", category: 'mobile', icon: '🎞️', proficiency: 3 },
-    { name: "Xcode", category: 'mobile', icon: '🧰', proficiency: 2 },  
-    // Tools
-    { name: "Git", category: 'tools', icon: '🔀', proficiency: 5 },
-    { name: "GitHub", category: 'tools', icon: '🐙', proficiency: 5 },
-    { name: "Docker", category: 'tools', icon: '🐳', proficiency: 3 },
-    { name: "Vite", category: 'tools', icon: '⚡', proficiency: 5 },
-    { name: "Postman", category: 'tools', icon: '📬', proficiency: 5 },        
+    { name: "React Native (Expo)", category: 'mobile', icon: '📱', proficiency: 4 },
+    { name: "Android SDK", category: 'mobile', icon: '🤖', proficiency: 3 },
+    { name: "Android Studio", category: 'mobile', icon: '🛠️', proficiency: 4 },
+    
+    // DevOps/Tools
+    { name: "Git", category: 'devops', icon: '🔀', proficiency: 5 },
+    { name: "GitHub", category: 'devops', icon: '🐙', proficiency: 5 },
+    { name: "Docker", category: 'devops', icon: '🐳', proficiency: 3 },
+    { name: "VS Code", category: 'devops', icon: '💻', proficiency: 5 },
+    
+    // Cloud
+    { name: "Firebase Auth", category: 'cloud', icon: '🔐', proficiency: 4 },
+    { name: "Firestore", category: 'cloud', icon: '🗄️', proficiency: 4 },
+    { name: "Firebase Hosting", category: 'cloud', icon: '🚀', proficiency: 4 },
+    { name: "Cloud Functions", category: 'cloud', icon: '⚡', proficiency: 3 },
   ];
 
   // Group skills by category
@@ -55,10 +66,11 @@ const SkillsSection = () => {
   }, {} as Record<string, Skill[]>);
 
   const categoryTitles = {
-    frontend: { text: 'Frontend', darkColor: '#e0e7ff', lightColor: '#1e293b' },
-    backend: { text: 'Backend', darkColor: '#d1fae5', lightColor: '#064e3b' },
+    languages: { text: 'Languages', darkColor: '#e0e7ff', lightColor: '#1e293b' },
+    frontend: { text: 'Frontend', darkColor: '#d1fae5', lightColor: '#064e3b' },
     mobile: { text: 'Mobile', darkColor: '#fef3c7', lightColor: '#92400e' },
-    tools: { text: 'Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },    
+    devops: { text: 'DevOps/Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },
+    cloud: { text: 'Cloud', darkColor: '#fce7f3', lightColor: '#9d174d' },
   };
 
   useEffect(() => {
@@ -177,10 +189,11 @@ const SkillsSection = () => {
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      frontend: '#6366f1',
-      backend: '#10b981',
+      languages: '#6366f1',
+      frontend: '#10b981',
       mobile: '#f59e0b',
-      tools: '#8b5cf6',      
+      devops: '#8b5cf6',
+      cloud: '#ec4899',
     };
     return colors[category as keyof typeof colors] || '#6366f1';
   };
@@ -210,7 +223,7 @@ const SkillsSection = () => {
       <div className="skills-container">
         {/* 3D floating elements with reduced scale */}
         <motion.div
-          className="floating-element frontend-element"
+          className="floating-element languages-element"
           initial={{ x: -100, y: -100, opacity: 0, rotateZ: 15 }}
           animate={controls}
           variants={{
@@ -225,7 +238,7 @@ const SkillsSection = () => {
         />
 
         <motion.div
-          className="floating-element backend-element"
+          className="floating-element frontend-element"
           initial={{ x: 100, y: -50, opacity: 0, rotateZ: -10 }}
           animate={controls}
           variants={{
@@ -240,7 +253,7 @@ const SkillsSection = () => {
         />
 
         <motion.div
-          className="floating-element design-element"
+          className="floating-element mobile-element"
           initial={{ x: -50, y: 100, opacity: 0, rotateZ: 20 }}
           animate={controls}
           variants={{

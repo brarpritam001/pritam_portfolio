@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --frontend-color: #6366f1;
-  --backend-color: #10b981;
+  --languages-color: #6366f1;
+  --frontend-color: #10b981;
   --mobile-color: #f59e0b;
-  --tools-color: #8b5cf6;
-  --design-color: #ec4899;
+  --devops-color: #8b5cf6;
+  --cloud-color: #ec4899;
 }
 
 .skills-section {
@@ -19,6 +19,8 @@
 }
 
 .skills-container {  
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;
@@ -64,6 +66,7 @@
   position: fixed;
   width: 24px;
   height: 24px; 
+ 
   background-size: contain;
   pointer-events: none;
   z-index: 9999;
@@ -165,36 +168,36 @@
 }
 
 /* Category title colors for dark mode */
-.dark .category-title[data-category="frontend"] {
+.dark .category-title[data-category="languages"] {
   color: #e0e7ff;
 }
-.dark .category-title[data-category="backend"] {
+.dark .category-title[data-category="frontend"] {
   color: #d1fae5;
 }
 .dark .category-title[data-category="mobile"] {
   color: #fef3c7;
 }
-.dark .category-title[data-category="tools"] {
+.dark .category-title[data-category="devops"] {
   color: #ede9fe;
 }
-.dark .category-title[data-category="design"] {
+.dark .category-title[data-category="cloud"] {
   color: #fce7f3;
 }
 
 /* Category title colors for light mode */
-.light .category-title[data-category="frontend"] {
+.light .category-title[data-category="languages"] {
   color: #1e293b;
 }
-.light .category-title[data-category="backend"] {
+.light .category-title[data-category="frontend"] {
   color: #064e3b;
 }
 .light .category-title[data-category="mobile"] {
   color: #92400e;
 }
-.light .category-title[data-category="tools"] {
+.light .category-title[data-category="devops"] {
   color: #5b21b6;
 }
-.light .category-title[data-category="design"] {
+.light .category-title[data-category="cloud"] {
   color: #9d174d;
 }
 
@@ -327,28 +330,44 @@
   transform-style: preserve-3d;
 }
 
-.frontend-element {
-  background: var(--frontend-color);
+.languages-element {
+  background: var(--languages-color);
   width: 180px;
   height: 180px;
   top: -40px;
   left: -40px;
 }
 
-.backend-element {
-  background: var(--backend-color);
+.frontend-element {
+  background: var(--frontend-color);
   width: 160px;
   height: 160px;
   bottom: -20px;
   right: -20px;
 }
 
-.design-element {
-  background: var(--design-color);
+.mobile-element {
+  background: var(--mobile-color);
   width: 170px;
   height: 170px;
   bottom: 40px;
   left: -20px;
+}
+
+.devops-element {
+  background: var(--devops-color);
+  width: 150px;
+  height: 150px;
+  top: 20%;
+  right: -30px;
+}
+
+.cloud-element {
+  background: var(--cloud-color);
+  width: 140px;
+  height: 140px;
+  bottom: 30%;
+  left: -25px;
 }
 
 /* 3D Grid Background - More subtle */
