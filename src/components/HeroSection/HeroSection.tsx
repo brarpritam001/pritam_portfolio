@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useAnimation, useInView, useMotionValue, useTransform, type HTMLMotionProps } from 'framer-motion';
-import { Canvas,  } from '@react-three/fiber';
-import { Stars,  } from '@react-three/drei';
 import './HeroSection.css'
 
 type TechBubble = {
@@ -36,12 +34,11 @@ const PritamHeroSection = () => {
     const rotateY = useTransform(mouseX, [-300, 300], [-5, 5]);
 
     const texts = useMemo(() => [
-      "Web & mobile app developer",
-      "Clean code, smooth UI",
-      "User-first design mindset",
-      "Building experiences that work",
-      "UX/UI Designer", 
-      "Web Developer", 
+      "Web & Mobile App Developer",
+      "Clean Code. Smooth UI",
+      "User-First Design Approach",
+      "Creating Seamless Digital Experiences",
+      "UX/UI Designer & Web Developer",       
     ], []);
 
     useEffect(() => {
@@ -172,15 +169,12 @@ const PritamHeroSection = () => {
                     onLoadedData={handleVideoLoaded}
                     poster="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                 >
-                    <source src="https://videos.pexels.com/video-files/2611250/2611250-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+                    {/* for dark mode */}
+                    <source src="https://videos.pexels.com/video-files/7534244/7534244-hd_1920_1080_25fps.mp4" type="video/mp4" />
+                    {/* for light */}
+                    <source src="https://videos.pexels.com/video-files/5473795/5473795-uhd_2732_1440_25fps.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
-                </video>
-                
-                <Canvas camera={{ position: [0, 0, 5], fov: 45 }} className="pritam-three-canvas">
-                    <ambientLight intensity={0.5} />
-                    <pointLight position={[10, 10, 10]} />
-                    <Stars radius={50} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-                </Canvas>
+                </video>              
             </div>
 
             <section className="pritam-hero-section" ref={pritamHeroRef}>
