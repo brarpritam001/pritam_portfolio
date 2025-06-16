@@ -87,16 +87,7 @@ const AboutSection = () => {
         }
     };
 
-    const skillHover = {
-        hover: {
-            scale: 1.05,
-            backgroundColor: "rgba(99, 102, 241, 0.15)",
-            transition: {
-                duration: 0.2,
-                ease: "easeOut"
-            }
-        }
-    };
+
 
     const floatingAnimation = {
         float: {
@@ -215,21 +206,7 @@ const AboutSection = () => {
                             className="skills-showcase"
                             variants={fadeIn}
                         >                            
-                            <div className="skills-grid">
-                                {['React', 'React Native', 'Node.js', 'TypeScript', 'Next.js', 'MongoDB', 'Express.js', 'Tailwind CSS', 'Figma', 'REST APIs', 'GraphQL', 'Redux'].map((skill, index) => (
-                                    <motion.span 
-                                        key={skill}
-                                        className="skill-tag"
-                                        whileHover="hover"
-                                        variants={skillHover}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={aboutControls}
-                                        transition={{ delay: 0.05 * index }}
-                                    >
-                                        {skill}
-                                    </motion.span>
-                                ))}
-                            </div>
+                          
                         </motion.div>
                     </motion.div>
 
@@ -268,8 +245,7 @@ const AboutSection = () => {
                                             <li>Built cross-platform mobile applications using React Native with native-like performance</li>
                                             <li>Designed and implemented RESTful APIs and integrated third-party APIs for enhanced functionality</li>
                                             <li>Created pixel-perfect UI components from Figma designs with attention to accessibility</li>
-                                            <li>Optimized application performance through code splitting, lazy loading, and efficient state management</li>
-                                            <li>Implemented CI/CD pipelines for automated testing and deployment</li>
+                                            <li>Optimized application performance through code splitting, lazy loading, and efficient state management</li>                                        
                                         </ul>
                                     </div>
                                 </div>

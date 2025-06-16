@@ -58,8 +58,7 @@ const FloatingNav = ({ darkMode, toggleDarkMode }: FloatingNavProps) => {
                                 <a
                                     href={`#${item.toLowerCase()}`}
                                     onClick={() => setIsNavExpanded(false)}
-                                >
-                                    <span className="link-icon">→</span>
+                                >                                    
                                     <span>{item}</span>
                                 </a>
                             </li>
