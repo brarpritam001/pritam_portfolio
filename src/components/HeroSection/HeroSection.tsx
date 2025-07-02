@@ -1,38 +1,18 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { motion, useAnimation, useInView, useMotionValue, useTransform, type HTMLMotionProps } from 'framer-motion';
+import { motion, useAnimation, useInView } from 'framer-motion';
 import './HeroSection.css'
-
-type TechBubble = {
-  name: string;
-  position: {
-    top?: string;
-    left?: string;
-    right?: string;
-    bottom?: string;
-  };
-  delay: number;
-  color: string;
-  icon: string;
-};
 
 const PritamHeroSection = () => {
     const [typedText, setTypedText] = useState('');
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [typingSpeed, setTypingSpeed] = useState(150);
-    const [flipCard, setFlipCard] = useState(false);
     
     const pritamHeroRef = useRef<HTMLDivElement>(null);
-    const pritamCardRef = useRef<HTMLDivElement>(null);
     const pritamVideoRef = useRef<HTMLVideoElement>(null);
     const heroControls = useAnimation();
     const isHeroInView = useInView(pritamHeroRef, { once: true });
     
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const rotateX = useTransform(mouseY, [-300, 300], [5, -5]);
-    const rotateY = useTransform(mouseX, [-300, 300], [-5, 5]);
-
     const texts = useMemo(() => [
       "Web & Mobile App Developer",
       "Clean Code. Smooth UI",
@@ -44,24 +24,6 @@ const PritamHeroSection = () => {
     useEffect(() => {
         if (isHeroInView) heroControls.start("visible");
     }, [isHeroInView, heroControls]);
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (pritamCardRef.current) {
-                const rect = pritamCardRef.current.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const x = e.clientX - centerX;
-                const y = e.clientY - centerY;
-                
-                mouseX.set(x);
-                mouseY.set(y);
-            }
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
 
     useEffect(() => {
         const type = () => {
@@ -111,41 +73,9 @@ const PritamHeroSection = () => {
         }
     };
 
-    const cardVariants = {
-        hidden: { opacity: 0, scale: 0.9 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94]
-            }
-        },
-        flipped: {
-            rotateY: 180,
-            transition: {
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94]
-            }
-        }
-    };
-
-    const techBubbles: TechBubble[] = [
-        { name: 'React', position: { top: '10%', left: '15%' }, delay: 0.6, color: '#61dafb', icon: '⚛️' },
-        { name: 'TypeScript', position: { bottom: '30%', left: '5%' }, delay: 1.0, color: '#3178c6', icon: '📘' },
-        { name: 'React Native', position: { bottom: '15%', right: '20%' }, delay: 1.2, color: '#02569B', icon: '📱' },
-        { name: 'Tailwind CSS', position: { top: '5%', right: '25%' }, delay: 0.9, color: '#38B2AC', icon: '💨' },
-        { name: 'Firebase', position: { top: '20%', right: '10%' }, delay: 0.8, color: '#FFCA28', icon: '🔥' },
-        { name: 'GitHub', position: { top: '15%', left: '40%' }, delay: 0.85, color: '#181717', icon: '🐙' },
-    ];
-
     const handleDownloadCV = () => {
         // Replace '/path/to/your-cv.pdf' with your actual PDF path
         window.open('/pritam_portfolio/public/Pritam_Resume.pdf', '_blank');
-    };
-
-    const handleFlipCard = () => {
-        setFlipCard(!flipCard);
     };
 
     const handleVideoLoaded = () => {
@@ -261,96 +191,12 @@ const PritamHeroSection = () => {
                         </motion.div>
                     </motion.div>
 
-                    <motion.div className="pritam-hero-visual-section" variants={cardVariants}>
-                        <motion.div 
-                            className="pritam-hero-card"
-                            ref={pritamCardRef}
-                            style={{
-                                rotateX,
-                                rotateY,
-                                transformStyle: "preserve-3d"
-                            }}
-                            animate={flipCard ? "flipped" : "visible"}
-                            variants={cardVariants}
-                            whileHover={{ scale: 1.03 }}
-                            onClick={handleFlipCard}
-                        >
-                            <div className="pritam-card-inner">
-                                <div className="pritam-card-face pritam-card-front">
-                                    <div className="pritam-profile-avatar">
-                                        <div className="pritam-avatar-ring"></div>
-                                        <div className="pritam-avatar-image"></div>
-                                        <div className="pritam-avatar-status"></div>
-                                    </div>
-                                    
-                                    <div className="pritam-card-content">
-                                        <h3>Pritam</h3>
-                                        <p>Senior UX Designer</p>
-                                        <div className="pritam-skill-tags">
-                                            <span>UX Research</span>
-                                            <span>UI Design</span>
-                                            <span>Prototyping</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="pritam-card-face pritam-card-back">
-                                    <div className="pritam-design-tools-grid">
-                                        {techBubbles.map((tech, index) => (
-                                            <motion.div 
-                                                key={index}
-                                                className="pritam-design-tool-item"
-                                                initial={{ opacity: 0, scale: 0.5 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ delay: tech.delay }}
-                                                whileHover={{ scale: 1.1 }}
-                                            >
-                                                <div className={`pritam-tool-icon pritam-tool-icon-${tech.name.replace(/\s+/g, '').toLowerCase()}`}>
-                                                    {tech.icon}
-                                                </div>
-                                                <span className="pritam-tool-name">{tech.name}</span>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {techBubbles.map((bubble) => (
-                                <motion.div
-                                    key={bubble.name}
-                                    className="pritam-floating-bubble"
-                                    style={{
-                                        position: 'absolute',
-                                        ...bubble.position,
-                                        backgroundColor: bubble.color
-                                    } as HTMLMotionProps<'div'>['style']}
-                                    initial={{ opacity: 0, scale: 0, y: 20 }}
-                                    animate={{ 
-                                        opacity: 1, 
-                                        scale: 1, 
-                                        y: 0,
-                                        rotateZ: [0, 360]
-                                    }}
-                                    transition={{ 
-                                        delay: bubble.delay,
-                                        duration: 0.6,
-                                        rotateZ: {
-                                            duration: 20,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }
-                                    }}
-                                    whileHover={{ 
-                                        scale: 1.2,
-                                        y: -10,
-                                        boxShadow: `0 15px 30px ${bubble.color}40`
-                                    }}
-                                >
-                                    <span>{bubble.icon}</span>
-                                    <span className="pritam-bubble-tooltip">{bubble.name}</span>
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                    <motion.div className="pritam-hero-visual-section" variants={itemVariants}>
+                        <div className="pritam-avatar-container">
+                            <div className="pritam-avatar-ring"></div>
+                            <div className="pritam-avatar-image"></div>
+                            
+                        </div>
                     </motion.div>
                 </motion.div>
 

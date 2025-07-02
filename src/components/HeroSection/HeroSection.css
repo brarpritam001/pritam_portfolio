@@ -219,90 +219,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
     order: 1;
 }
 
-.pritam-hero-card {
+.pritam-avatar-container {
     position: relative;
-    width: 100%;
-    max-width: 320px;
-    height: 420px;
-    transform-style: preserve-3d;
-    cursor: pointer;
+    width: 200px;
+    height: 200px;
     margin: 0 auto;
-}
-
-.pritam-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-}
-
-.pritam-card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 1.25rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
-
-.pritam-card-face::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-    transform: rotate(45deg);
-    animation: pritam-shine 3s infinite;
-}
-
-@keyframes pritam-shine {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
-}
-
-.pritam-card-front {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-}
-
-.pritam-card-back {
-    transform: rotateY(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pritam-profile-avatar {
-    position: relative;
-    width: 130px;
-    height: 130px;
-    margin-bottom: 1.5rem;
 }
 
 .pritam-avatar-ring {
     position: absolute;
-    inset: -4px;
+    inset: -10px;
     border-radius: 50%;
     background: linear-gradient(135deg, #8b5cf6, #ec4899, #3b82f6);
     animation: pritam-rotate 6s linear infinite;
     z-index: 0;
+    filter: blur(10px);
+    opacity: 0.7;
 }
 
 @keyframes pritam-rotate {
@@ -332,119 +267,6 @@
     opacity: 0.9;
 }
 
-.pritam-avatar-status {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 20px;
-    height: 20px;
-    background: #10b981;
-    border-radius: 50%;
-    border: 3px solid #0a0a1a;
-    z-index: 2;
-}
-
-.pritam-card-content h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.pritam-card-content p {
-    color: #94a3b8;
-    margin-bottom: 1.25rem;
-    font-size: 0.9375rem;
-}
-
-.pritam-skill-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.pritam-skill-tags span {
-    padding: 0.375rem 0.75rem;
-    background: rgba(139, 92, 246, 0.2);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 1rem;
-    font-size: 0.6875rem;
-    font-weight: 500;
-}
-
-.pritam-design-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    width: 100%;
-}
-
-.pritam-design-tool-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-}
-
-.pritam-tool-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-.pritam-tool-name {
-    font-size: 0.6875rem;
-    color: #e2e8f0;
-    text-align: center;
-}
-
-.pritam-floating-bubble {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
-}
-
-.pritam-bubble-tooltip {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.6875rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-}
-
-.pritam-floating-bubble:hover .pritam-bubble-tooltip {
-    opacity: 1;
-}
-
 .pritam-scroll-indicator {
     position: absolute;
     bottom: 1.5rem;
@@ -465,62 +287,6 @@
 
 .pritam-scroll-arrow {
     color: #8b5cf6;
-}
-
-/* CV Modal Styles */
-.pritam-cv-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-}
-
-.pritam-cv-modal-content {
-    position: relative;
-    max-width: 90%;
-    max-height: 90vh;
-    background: #0a0a1a;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.pritam-cv-modal-close {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    z-index: 1001;
-    transition: all 0.3s ease;
-}
-
-.pritam-cv-modal-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.pritam-cv-image {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Responsive Styles */
@@ -549,6 +315,11 @@
     .pritam-hero-description {
         font-size: 1.125rem;
     }
+    
+    .pritam-avatar-container {
+        width: 250px;
+        height: 250px;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -556,9 +327,9 @@
         font-size: 3.5rem;
     }
     
-    .pritam-hero-card {
-        max-width: 350px;
-        height: 450px;
+    .pritam-avatar-container {
+        width: 300px;
+        height: 300px;
     }
 }
 
@@ -598,14 +369,9 @@
         font-size: 1.25rem;
     }
     
-    .pritam-hero-card {
-        height: 380px;
-    }
-    
-    .pritam-profile-avatar {
-        width: 110px;
-        height: 110px;
+    .pritam-avatar-container {
+        width: 180px;
+        height: 180px;
     }
     
 }
-

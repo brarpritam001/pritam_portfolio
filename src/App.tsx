@@ -37,9 +37,9 @@ const App = () => {
         <div className="portfolio-container">
             <FloatingNav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             <HeroSection />
-            <ProjectsSection />
             <SkillsSection />
             <AboutSection />
+            <ProjectsSection />
             <ContactSection />
             <Footer />
         </div>

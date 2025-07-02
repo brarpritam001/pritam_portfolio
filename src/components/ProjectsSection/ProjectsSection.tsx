@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ProjectsSection.css';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 interface Project {
     id: number;
@@ -10,14 +14,17 @@ interface Project {
     link: string;
     type: 'web' | 'mobile' | 'design';
     client?: string;
+    technologies?: string[];
 }
 
 const ProjectsSection = () => {
     const [activeFilter, setActiveFilter] = useState<'all' | 'web' | 'mobile' | 'design'>('all');
-    const projectsRef = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const filtersRef = useRef<HTMLDivElement>(null);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const projectsControls = useAnimation();
-    const isProjectsInView = useInView(projectsRef, { once: true, margin: "-100px" });
+    const scrollContentRef = useRef<HTMLDivElement>(null);
+    const projectCardsRef = useRef<HTMLDivElement[]>([]);
 
     const projects: Project[] = [
         {
@@ -27,7 +34,8 @@ const ProjectsSection = () => {
             image: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'mobile',
-            client: "ShopEasy Retail"
+            client: "ShopEasy Retail",
+            technologies: ["React Native", "Node.js", "MongoDB"]
         },
         {
             id: 2,
@@ -36,7 +44,8 @@ const ProjectsSection = () => {
             image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'mobile',
-            client: "FitLife Gyms"
+            client: "FitLife Gyms",
+            technologies: ["Flutter", "Firebase", "Stripe"]
         },
         {
             id: 3,
@@ -45,16 +54,18 @@ const ProjectsSection = () => {
             image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'mobile',
-            client: "Corporate Solutions Inc."
+            client: "Corporate Solutions Inc.",
+            technologies: ["React Native", "PostgreSQL", "AWS"]
         },
         {
             id: 4,
             title: "E-Commerce Website",
             description: "Responsive online store with product management, customer accounts, and payment processing.",
-            image: "https://api.backlinko.com/app/uploads/2025/01/ecommerce-website-examples-featured-image-960x538.webp",
+            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'web',
-            client: "UrbanStyle Fashion"
+            client: "UrbanStyle Fashion",
+            technologies: ["React", "Node.js", "Shopify"]
         },
         {
             id: 5,
@@ -63,7 +74,8 @@ const ProjectsSection = () => {
             image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'web',
-            client: "TechSolutions Ltd."
+            client: "TechSolutions Ltd.",
+            technologies: ["Next.js", "TypeScript", "Tailwind"]
         },
         {
             id: 6,
@@ -72,16 +84,34 @@ const ProjectsSection = () => {
             image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             link: "#",
             type: 'web',
-            client: "HomeDecor Plus"
+            client: "HomeDecor Plus",
+            technologies: ["Vue.js", "Express", "MySQL"]
+        },
+        {
+            id: 7,
+            title: "Brand Identity Design",
+            description: "Complete brand identity package including logo design, color palette, and brand guidelines.",
+            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+            link: "#",
+            type: 'design',
+            client: "Startup Innovators",
+            technologies: ["Adobe Illustrator", "Figma", "Adobe Photoshop"]
+        },
+        {
+            id: 8,
+            title: "UI/UX Design System",
+            description: "Comprehensive design system with reusable components and design tokens for consistency.",
+            image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+            link: "#",
+            type: 'design',
+            client: "Digital Agency Co.",
+            technologies: ["Figma", "Sketch", "Principle"]
         }
     ];
 
-    // Duplicate projects for infinite scroll effect
-    const duplicatedProjects = [...projects, ...projects];
-
-    const filteredProjects = activeFilter === 'all'
-        ? duplicatedProjects
-        : duplicatedProjects.filter(project => project.type === activeFilter);
+    const filteredProjects = activeFilter === 'all' 
+        ? projects 
+        : projects.filter(project => project.type === activeFilter);
 
     const getProjectTypeColor = (type: string) => {
         switch (type) {
@@ -92,185 +122,237 @@ const ProjectsSection = () => {
         }
     };
 
+    // Initialize GSAP animations
     useEffect(() => {
-        if (isProjectsInView) projectsControls.start("visible");
-    }, [isProjectsInView, projectsControls]);
+        const ctx = gsap.context(() => {
+            // Section entrance animation
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    once: true,
+                }
+            });
 
-    // Infinite scroll animation
-    useEffect(() => {
-        const scrollContainer = scrollContainerRef.current;
-        if (!scrollContainer) return;
+            // Header animations
+            const sectionTitle = headerRef.current?.querySelector('.section-title');
+            const sectionSubtitle = headerRef.current?.querySelector('.section-subtitle');
+            const filterBtns = filtersRef.current?.querySelectorAll('.filter-btn');
 
-        let animationFrameId: number;
-        let speed = 1; // pixels per frame
-        let position = 0;
-        const maxScroll = scrollContainer.scrollWidth / 2;
-
-        const animate = () => {
-            position += speed;
-            
-            if (position >= maxScroll) {
-                position = 0;
+            if (sectionTitle) {
+                tl.from(sectionTitle, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
             }
-            
-            scrollContainer.scrollLeft = position;
-            animationFrameId = requestAnimationFrame(animate);
-        };
+            if (sectionSubtitle) {
+                tl.from(sectionSubtitle, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, "-=0.5");
+            }
+            if (filterBtns && filterBtns.length > 0) {
+                tl.from(filterBtns, {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                }, "-=0.3");
+            }
 
-        const handleHover = (isHovering: boolean) => {
-            speed = isHovering ? 0.2 : 1;
-        };
+            // Horizontal scroll animation
+            const scrollTween = gsap.to(scrollContentRef.current, {
+                x: () => -(scrollContentRef.current!.scrollWidth - scrollContainerRef.current!.clientWidth),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: scrollContainerRef.current,
+                    start: "top 20%",
+                    end: () => `+=${scrollContentRef.current!.scrollWidth - scrollContainerRef.current!.clientWidth}`,
+                    scrub: 1,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                }
+            });
 
-        scrollContainer.addEventListener('mouseenter', () => handleHover(true));
-        scrollContainer.addEventListener('mouseleave', () => handleHover(false));
+            // Individual card animations
+            projectCardsRef.current.forEach((card, index) => {
+                if (card) {
+                    // Card entrance animation
+                    gsap.from(card, {
+                        y: 100,
+                        opacity: 0,
+                        duration: 0.8,
+                        delay: index * 0.1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top 90%",
+                            once: true,
+                        }
+                    });
 
-        animationFrameId = requestAnimationFrame(animate);
+                    // Card hover effects
+                    const cardImage = card.querySelector('.project-image');
+                    const cardContent = card.querySelector('.project-content');
+                    const cardBadge = card.querySelector('.project-type-badge');
 
-        return () => {
-            cancelAnimationFrame(animationFrameId);
-            scrollContainer.removeEventListener('mouseenter', () => handleHover(true));
-            scrollContainer.removeEventListener('mouseleave', () => handleHover(false));
-        };
+                    card.addEventListener('mouseenter', () => {
+                        gsap.to(card, {
+                            y: -10,
+                            rotationY: 2,
+                            rotationX: 2,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                        
+                        gsap.to(cardImage, {
+                            scale: 1.05,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+
+                        gsap.to(cardBadge, {
+                            scale: 1.1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+
+                        gsap.to(cardContent, {
+                            y: -5,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        gsap.to(card, {
+                            y: 0,
+                            rotationY: 0,
+                            rotationX: 0,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+
+                        gsap.to(cardImage, {
+                            scale: 1,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+
+                        gsap.to(cardBadge, {
+                            scale: 1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+
+                        gsap.to(cardContent, {
+                            y: 0,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                    });
+                }
+            });
+
+            return () => {
+                scrollTween.kill();
+            };
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, [filteredProjects]);
+
+    // Filter change animation
+    useEffect(() => {
+        gsap.fromTo(projectCardsRef.current, {
+            opacity: 0,
+            y: 50,
+            scale: 0.9
+        }, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power3.out"
+        });
     }, [activeFilter]);
 
-    const fadeIn = {
-        hidden: { opacity: 0, y: 40 },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: [0.16, 0.77, 0.47, 0.97]
+    const handleFilterChange = (filter: 'all' | 'web' | 'mobile' | 'design') => {
+        // Animate out current cards
+        gsap.to(projectCardsRef.current, {
+            opacity: 0,
+            y: -30,
+            duration: 0.3,
+            ease: "power2.in",
+            onComplete: () => {
+                setActiveFilter(filter);
             }
-        }
+        });
     };
 
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.3
-            }
+    const addToRefs = (el: HTMLDivElement | null) => {
+        if (el && !projectCardsRef.current.includes(el)) {
+            projectCardsRef.current.push(el);
         }
-    };
-
-    const cardHover = {
-        initial: { 
-            y: 0,
-            rotateX: 0,
-            rotateY: 0,
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-        },
-        hover: {
-            y: -8,
-            rotateX: 1.5,
-            rotateY: 1.5,
-            boxShadow: "0 15px 30px -5px rgba(0, 0, 0, 0.2)",
-            transition: {
-                duration: 0.3,
-                ease: [0.16, 0.77, 0.47, 0.97]
-            }
-        }
-    };
-
-    const imageHover = {
-        initial: { scale: 1 },
-        hover: { scale: 1.03 }
     };
 
     return (
-        <section id="projects" className="projects-section" ref={projectsRef}>
+        <section id="projects" className="projects-section" ref={sectionRef}>
             <div className="section-container">
-                <motion.div 
-                    className="section-header"
-                    initial="hidden"
-                    animate={projectsControls}
-                    variants={fadeIn}
-                >
+                <div className="section-header" ref={headerRef}>
                     <h2 className="section-title">
-                        <motion.span 
-                            className="inline-block"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1, duration: 0.6 }}
-                        >
-                            Our Projects
-                        </motion.span>
+                        Our Projects
                     </h2>
-                    <motion.p 
-                        className="section-subtitle"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                    >
+                    <p className="section-subtitle">
                         Professional solutions tailored to your business needs
-                    </motion.p>
-                    <motion.div 
-                        className="project-filters"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
+                    </p>
+                </div>
+
+                <div className="project-filters" ref={filtersRef}>
+                    <button
+                        onClick={() => handleFilterChange('all')}
+                        className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
                     >
-                        <motion.button
-                            onClick={() => setActiveFilter('all')}
-                            className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--primary-light)' }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        >
-                            All Projects
-                        </motion.button>
-                        <motion.button
-                            onClick={() => setActiveFilter('web')}
-                            className={`filter-btn ${activeFilter === 'web' ? 'active' : ''}`}
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--primary-light)' }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        >
-                            Web Solutions
-                        </motion.button>
-                        <motion.button
-                            onClick={() => setActiveFilter('mobile')}
-                            className={`filter-btn ${activeFilter === 'mobile' ? 'active' : ''}`}
-                            whileHover={{ scale: 1.05, backgroundColor: 'var(--primary-light)' }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        >
-                            Mobile Apps
-                        </motion.button>
-                    </motion.div>
-                </motion.div>
+                        All Projects
+                    </button>
+                    <button
+                        onClick={() => handleFilterChange('web')}
+                        className={`filter-btn ${activeFilter === 'web' ? 'active' : ''}`}
+                    >
+                        Web Solutions
+                    </button>
+                    <button
+                        onClick={() => handleFilterChange('mobile')}
+                        className={`filter-btn ${activeFilter === 'mobile' ? 'active' : ''}`}
+                    >
+                        Mobile Apps
+                    </button>
+                    <button
+                        onClick={() => handleFilterChange('design')}
+                        className={`filter-btn ${activeFilter === 'design' ? 'active' : ''}`}
+                    >
+                        Design
+                    </button>
+                </div>
 
                 <div className="projects-scroll-container" ref={scrollContainerRef}>
-                    <motion.div 
-                        className="projects-scroll-content"
-                        initial="hidden"
-                        animate={projectsControls}
-                        variants={staggerContainer}
-                    >
-                        {filteredProjects.map((project, index) => (
-                            <motion.div
-                                key={`${project.id}-${index}`}
+                    <div className="projects-scroll-content" ref={scrollContentRef}>
+                        {filteredProjects.map((project,) => (
+                            <div
+                                key={project.id}
                                 className="project-card-container"
-                                variants={fadeIn}
-                                initial="hidden"
-                                animate="visible"
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                layout
+                                ref={addToRefs}
                             >
-                                <motion.div
-                                    className="project-card"
-                                    variants={cardHover}
-                                    initial="initial"
-                                    whileHover="hover"
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <motion.div 
-                                        className="project-image-container"
-                                        variants={imageHover}
-                                    >
+                                <div className="project-card">
+                                    <div className="project-image-container">
                                         <img 
                                             src={project.image} 
                                             alt={project.title} 
@@ -282,28 +364,42 @@ const ProjectsSection = () => {
                                         <div className="project-client">
                                             {project.client}
                                         </div>
-                                    </motion.div>
+                                    </div>
                                     <div className="project-content">
                                         <h3 className="project-title">{project.title}</h3>
                                         <p className="project-description">{project.description}</p>
+                                        
+                                        {project.technologies && (
+                                            <div className="project-technologies">
+                                                {project.technologies.map((tech, techIndex) => (
+                                                    <span key={techIndex} className="tech-tag">
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+
                                         <div className="project-actions">
-                                            <motion.a 
+                                            <a 
                                                 href={project.link} 
                                                 className="project-link"
-                                                whileHover={{ x: 5 }}
-                                                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                                             >
                                                 View Project
                                                 <svg className="link-icon" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                    </svg>
-                                            </motion.a>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
-                                </motion.div>
-                            </motion.div>
+                                </div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
+                </div>
+
+                <div className="scroll-indicator">
+                    <div className="scroll-text">Scroll to explore</div>
+                    <div className="scroll-arrow">→</div>
                 </div>
             </div>
         </section>
