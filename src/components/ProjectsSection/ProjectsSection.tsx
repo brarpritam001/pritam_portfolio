@@ -396,11 +396,6 @@ const ProjectsSection = () => {
                         ))}
                     </div>
                 </div>
-
-                <div className="scroll-indicator">
-                    <div className="scroll-text">Scroll to explore</div>
-                    <div className="scroll-arrow">→</div>
-                </div>
             </div>
         </section>
     );
