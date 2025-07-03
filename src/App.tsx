@@ -7,6 +7,7 @@ import AboutSection from './components/AboutSection/AboutSection';
 import ContactSection from './components/ContactSection/ContactSection';
 import FloatingNav from './components/FloatingNav/FloatingNav';
 import Footer from './components/Footer/Footer';
+import MouseFollower from './components/MouseFollower/MouseFollower'; // Add this import
 
 const App = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -35,6 +36,7 @@ const App = () => {
 
     return (
         <div className="portfolio-container">
+            <MouseFollower /> {/* Add this line */}
             <FloatingNav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             <HeroSection />
             <SkillsSection />

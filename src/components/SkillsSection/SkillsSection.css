@@ -11,7 +11,7 @@
 .skills-section {
   display: flex;
   position: relative;
-  padding: 4rem 0;
+  padding: 2rem 0;
   background-color: #f8fafc;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
@@ -66,7 +66,7 @@
   position: fixed;
   width: 24px;
   height: 24px; 
- 
+
   background-size: contain;
   pointer-events: none;
   z-index: 9999;
@@ -403,7 +403,7 @@
 
 /* Dark mode styles */
 .dark .skills-section {
-  background-color: #0f172a;
+  background-color: black;
 }
 
 .dark .skills-title {

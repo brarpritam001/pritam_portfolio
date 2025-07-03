@@ -85,11 +85,6 @@ const Footer = () => {
       ref={footerRef}
     >
       <div className="footer-background">
-        <div className="grid-pattern"></div>
-        <div className="gradient-orb gradient-orb-1"></div>
-        <div className="gradient-orb gradient-orb-2"></div>
-        <div className="gradient-orb gradient-orb-3"></div>
-        
         <div 
           className="mouse-follower"
           style={{

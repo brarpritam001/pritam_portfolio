@@ -3,10 +3,10 @@
 /* Base Styles */
 .footer-container {
   position: relative;
-  background: linear-gradient(135deg, #0f0f1a 0%, #1a102e 50%, #101a3e 100%);
+  background: black;
   color: white;
   overflow: hidden;
-  padding: 8rem 0 3rem;
+  padding: 3rem 0 3rem;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -20,21 +20,6 @@
   z-index: 0;
 }
 
-.grid-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(rgba(139, 92, 246, 0.03) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 2px, transparent 2px);
-  background-size: 60px 60px;
-  animation: gridMove 20s linear infinite;
-  opacity: 0.5;
-}
-
-@keyframes gridMove {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(60px, 60px); }
-}
 
 /* Gradient Orbs */
 .gradient-orb {

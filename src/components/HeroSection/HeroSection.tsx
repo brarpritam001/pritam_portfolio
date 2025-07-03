@@ -97,10 +97,10 @@ const PritamHeroSection = () => {
                     muted
                     playsInline
                     onLoadedData={handleVideoLoaded}
-                    poster="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                    poster=""
                 >
                     {/* for dark mode */}
-                    <source src="https://videos.pexels.com/video-files/7534244/7534244-hd_1920_1080_25fps.mp4" type="video/mp4" />
+                    <source src="https://videos.pexels.com/video-files/13375816/13375816-hd_1920_1080_60fps.mp4" type="video/mp4" />
                     {/* for light */}
                     <source src="https://videos.pexels.com/video-files/5473795/5473795-uhd_2732_1440_25fps.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
@@ -191,13 +191,12 @@ const PritamHeroSection = () => {
                         </motion.div>
                     </motion.div>
 
-                    <motion.div className="pritam-hero-visual-section" variants={itemVariants}>
+                    {/* <motion.div className="pritam-hero-visual-section" variants={itemVariants}>
                         <div className="pritam-avatar-container">
                             <div className="pritam-avatar-ring"></div>
                             <div className="pritam-avatar-image"></div>
-                            
                         </div>
-                    </motion.div>
+                    </motion.div> */}
                 </motion.div>
 
                 <motion.div 

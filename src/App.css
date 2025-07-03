@@ -215,3 +215,18 @@ p {
         font-size: 1rem;
     }
 }
+
+
+/* Add hover effects to interactive elements */
+a, button, .btn, .hover-effect {
+    cursor: none !important;
+}
+
+/* Add this to your existing App.css */
+.hover-effect {
+    transition: transform 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: translateY(-3px);
+}

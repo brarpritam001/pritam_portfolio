@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useInView, useMotionValue, animate } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './SkillsSection.css';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 interface Skill {
   name: string;
@@ -22,6 +27,9 @@ const SkillsSection = () => {
   const cursorOpacity = useMotionValue(0);
   const cursorScale = useMotionValue(1);
   const cursorRotate = useMotionValue(0);
+  const floatingElementsRef = useRef<HTMLDivElement[]>([]);
+  const categoryCardsRef = useRef<HTMLDivElement[]>([]);
+  const skillItemsRef = useRef<HTMLDivElement[]>([]);
 
   const skills: Skill[] = [
     // Languages
@@ -72,6 +80,143 @@ const SkillsSection = () => {
     devops: { text: 'DevOps/Tools', darkColor: '#ede9fe', lightColor: '#5b21b6' },
     cloud: { text: 'Cloud', darkColor: '#fce7f3', lightColor: '#9d174d' },
   };
+
+  // GSAP Animations
+  useEffect(() => {
+    if (!skillsRef.current) return;
+
+    // Floating elements animation
+    floatingElementsRef.current.forEach((el, index) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 50, x: index % 2 === 0 ? -50 : 50 },
+        {
+          opacity: 0.08,
+          y: 0,
+          x: 0,
+          duration: 2,
+          delay: index * 0.2,
+          ease: "elastic.out(1, 0.5)",
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top bottom",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    });
+
+    // Category cards animation
+    categoryCardsRef.current.forEach((card, index) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 80, rotationY: 15 },
+        {
+          opacity: 1,
+          y: 0,
+          rotationY: 0,
+          duration: 1,
+          delay: index * 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Hover animation
+      gsap.to(card, {
+        rotationY: 5,
+        rotationX: 2,
+        scale: 1.02,
+        duration: 0.3,
+        paused: true,
+        ease: "power1.out"
+      });
+
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, { rotationY: 5, rotationX: 2, scale: 1.02, duration: 0.3 });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotationY: 0, rotationX: 0, scale: 1, duration: 0.3 });
+      });
+    });
+
+    // Skill items animation
+    skillItemsRef.current.forEach((item, index) => {
+      gsap.fromTo(item,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: Math.floor(index / 4) * 0.1 + (index % 4) * 0.05,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 90%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Hover animation
+      gsap.to(item, {
+        y: -5,
+        duration: 0.2,
+        paused: true
+      });
+
+      item.addEventListener('mouseenter', () => {
+        gsap.to(item, { y: -5, duration: 0.2 });
+      });
+      item.addEventListener('mouseleave', () => {
+        gsap.to(item, { y: 0, duration: 0.2 });
+      });
+    });
+
+    // Header animation
+    const header = skillsRef.current.querySelector('.skills-header');
+    if (header) {
+      gsap.fromTo(header,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }
+
+    // Scroll hint animation
+    const scrollHint = skillsRef.current.querySelector('.scroll-hint');
+    if (scrollHint) {
+      gsap.to(scrollHint, {
+        opacity: 0.6,
+        y: -5,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        scrollTrigger: {
+          trigger: skillsRef.current,
+          start: "top bottom",
+          toggleActions: "play none none none"
+        }
+      });
+    }
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -206,6 +351,25 @@ const SkillsSection = () => {
     return `color-mix(in srgb, ${getCategoryColor(category)}, white ${100 - (proficiency * 20)}%)`;
   };
 
+  // Add elements to ref arrays
+  const addToFloatingElements = (el: HTMLDivElement | null) => {
+    if (el && !floatingElementsRef.current.includes(el)) {
+      floatingElementsRef.current.push(el);
+    }
+  };
+
+  const addToCategoryCards = (el: HTMLDivElement | null, index: number) => {
+    if (el && !categoryCardsRef.current.includes(el)) {
+      categoryCardsRef.current[index] = el;
+    }
+  };
+
+  const addToSkillItems = (el: HTMLDivElement | null, index: number) => {
+    if (el && !skillItemsRef.current.includes(el)) {
+      skillItemsRef.current[index] = el;
+    }
+  };
+
   return (
     <section id="skills" className="skills-section" ref={skillsRef}>
       {/* Custom hand cursor */}
@@ -223,6 +387,7 @@ const SkillsSection = () => {
       <div className="skills-container">
         {/* 3D floating elements with reduced scale */}
         <motion.div
+          ref={addToFloatingElements}
           className="floating-element languages-element"
           initial={{ x: -100, y: -100, opacity: 0, rotateZ: 15 }}
           animate={controls}
@@ -238,6 +403,7 @@ const SkillsSection = () => {
         />
 
         <motion.div
+          ref={addToFloatingElements}
           className="floating-element frontend-element"
           initial={{ x: 100, y: -50, opacity: 0, rotateZ: -10 }}
           animate={controls}
@@ -253,6 +419,7 @@ const SkillsSection = () => {
         />
 
         <motion.div
+          ref={addToFloatingElements}
           className="floating-element mobile-element"
           initial={{ x: -50, y: 100, opacity: 0, rotateZ: 20 }}
           animate={controls}
@@ -309,10 +476,11 @@ const SkillsSection = () => {
             animate={controls}
             variants={containerVariants}
           >
-            {Object.entries(skillsByCategory).map(([category, skills]) => (
+            {Object.entries(skillsByCategory).map(([category, skills], categoryIndex) => (
               <motion.div
                 key={category}
                 className="skill-category"
+                ref={(el) => addToCategoryCards(el, categoryIndex)}
                 variants={categoryVariants}
                 whileHover="hover"
                 style={{
@@ -341,10 +509,11 @@ const SkillsSection = () => {
                 </div>
 
                 <div className="skills-list">
-                  {skills.map((skill) => (
+                  {skills.map((skill, skillIndex) => (
                     <motion.div
                       key={skill.name}
                       className="skill-item"
+                      ref={(el) => addToSkillItems(el, skillIndex)}
                       variants={itemVariants}
                       whileHover="hover"
                       initial="hidden"

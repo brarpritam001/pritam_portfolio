@@ -4,7 +4,7 @@
     --primary-light: #818cf8;
     --primary-dark: #4f46e5;
     --primary-extra-light: #e0e7ff;
-    --light: #f9fafb;
+    --light: #ffffff;
     --lighter: #ffffff;
     --lightest: #f8fafc;
     --dark: #1e293b;
@@ -15,7 +15,7 @@
 }
 
 .dark {
-    --light: #0f172a;
+    --light: black;
     --lighter: #1e293b;
     --lightest: #334155;
     --dark: #f1f5f9;
@@ -27,7 +27,7 @@
 
 .contact-section {
     position: relative;
-    padding: 6rem 0;
+    padding: 2rem 0;
     background-color: var(--light);
     overflow: hidden;
     isolation: isolate;
@@ -45,7 +45,7 @@
 }
 
 .dark .contact-gradient-overlay {
-    background: radial-gradient(circle at 75% 50%, rgba(99, 102, 241, 0.2) 0%, rgba(15, 23, 42, 0) 60%);
+    background: black;
 }
 
 .contact-particles {
