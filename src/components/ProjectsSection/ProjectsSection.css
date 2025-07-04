@@ -148,8 +148,8 @@
 
 .circular-project-container {
     position: absolute;
-    width: 240px;
-    height: 240px;
+    width: 220px;
+    height: 220px;
     transform-origin: center;
     will-change: transform;
     cursor: pointer;
@@ -305,7 +305,8 @@
 }
 
 .circular-project-details {
-    background: var(--circular-lighter);
+    border: 1px solid  rgba(99, 102, 241, 0.2);
+    background: transparent;
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: var(--circular-shadow-md);

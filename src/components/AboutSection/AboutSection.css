@@ -1,5 +1,5 @@
 .about-section {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: white;
     position: relative;
     padding: 2rem 0;
     overflow: hidden;
@@ -160,7 +160,7 @@
 }
 
 .dark .stat-item {
-    background: rgba(30, 41, 59, 0.9);
+    background: transparent;
     border-color: rgba(99, 102, 241, 0.2);
 }
 
@@ -262,6 +262,7 @@
 .dark .experience-card {
     background: rgba(30, 41, 59, 0.95);
     border-color: rgba(99, 102, 241, 0.2);
+    background-color: transparent;
 }
 
 .experience-header-content {

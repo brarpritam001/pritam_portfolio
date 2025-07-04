@@ -36,7 +36,7 @@ const App = () => {
 
     return (
         <div className="portfolio-container">
-            <MouseFollower /> {/* Add this line */}
+            <MouseFollower />
             <FloatingNav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             <HeroSection />
             <SkillsSection />

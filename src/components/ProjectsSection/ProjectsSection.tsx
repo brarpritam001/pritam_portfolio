@@ -28,8 +28,8 @@ const CircularProjectsSlider = () => {
             title: "Business Websites",
             description: "Designed and developed responsive websites for small/local businesses, optimized for SEO and mobile experience.",
             image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-            link: "#",
-            previewLink: "#preview",
+            link: "https://brarpritam001.github.io/RenuBuildingMaterialSanitaryStore/",
+            previewLink: "https://brarpritam001.github.io/RenuBuildingMaterialSanitaryStore/",
             type: 'web',
             client: "Multiple Clients",
             technologies: ["HTML", "CSS", "JavaScript", "TypeScript"]
@@ -106,8 +106,8 @@ const CircularProjectsSlider = () => {
     useEffect(() => {
         if (!circleRef.current || projectsRef.current.length === 0) return;
 
-        const cardWidth = 130;
-        const minGap = 130;
+        const cardWidth = 120;
+        const minGap = 120;
         const circumference = (cardWidth + minGap) * filteredProjects.length;
         const radius = circumference / (2 * Math.PI);
         
