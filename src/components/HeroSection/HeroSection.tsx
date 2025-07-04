@@ -1,25 +1,43 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import './HeroSection.css'
+import './HeroSection.css';
 
 const PritamHeroSection = () => {
     const [typedText, setTypedText] = useState('');
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [typingSpeed, setTypingSpeed] = useState(150);
+    const [isDarkMode, setIsDarkMode] = useState(false);
     
     const pritamHeroRef = useRef<HTMLDivElement>(null);
-    const pritamVideoRef = useRef<HTMLVideoElement>(null);
     const heroControls = useAnimation();
     const isHeroInView = useInView(pritamHeroRef, { once: true });
     
     const texts = useMemo(() => [
-      "Web & Mobile App Developer",
-      "Clean Code. Smooth UI",
-      "User-First Design Approach",
-      "Creating Seamless Digital Experiences",
-      "UX/UI Designer & Web Developer",       
+        "Web & Mobile App Developer",
+        "Clean Code. Smooth UI",
+        "User-First Design Approach",
+        "Creating Seamless Digital Experiences",
+        "UX/UI Designer & Web Developer",       
     ], []);
+
+    useEffect(() => {
+        const checkDarkMode = () => {
+            const darkModeOn = 
+                localStorage.theme === 'dark' || 
+                (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            setIsDarkMode(darkModeOn);
+            document.documentElement.classList.toggle('dark', darkModeOn);
+        };
+
+        checkDarkMode();
+
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = () => checkDarkMode();
+        
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
+    }, []);
 
     useEffect(() => {
         if (isHeroInView) heroControls.start("visible");
@@ -74,37 +92,36 @@ const PritamHeroSection = () => {
     };
 
     const handleDownloadCV = () => {
-        // Replace '/path/to/your-cv.pdf' with your actual PDF path
-        window.open('/pritam_portfolio/public/Pritam_Resume.pdf', '_blank');
-    };
-
-    const handleVideoLoaded = () => {
-        if (pritamVideoRef.current) {
-            pritamVideoRef.current.play().catch(error => {
-                console.error("Video play failed:", error);
-            });
-        }
+        window.open('/Pritam_Resume.pdf', '_blank');
     };
 
     return (
         <div className="pritam-hero-container">
-            <div className="pritam-hero-background">
-                <video
-                    ref={pritamVideoRef}
-                    className="pritam-galaxy-video"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    onLoadedData={handleVideoLoaded}
-                    poster=""
-                >
-                    {/* for dark mode */}
-                    <source src="https://videos.pexels.com/video-files/13375816/13375816-hd_1920_1080_60fps.mp4" type="video/mp4" />
-                    {/* for light */}
-                    <source src="https://videos.pexels.com/video-files/5473795/5473795-uhd_2732_1440_25fps.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>              
+            {/* Background Video */}
+            <div className="pritam-hero-video-container">
+                {isDarkMode ? (
+                    <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="pritam-hero-video"
+                    >
+                        <source src="https://videos.pexels.com/video-files/12978459/12978459-hd_1920_1080_24fps.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ) : (
+                    <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="pritam-hero-video"
+                    >
+                        <source src="https://videos.pexels.com/video-files/12978459/12978459-hd_1920_1080_24fps.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                )}
             </div>
 
             <section className="pritam-hero-section" ref={pritamHeroRef}>
@@ -190,13 +207,6 @@ const PritamHeroSection = () => {
                             </div>
                         </motion.div>
                     </motion.div>
-
-                    {/* <motion.div className="pritam-hero-visual-section" variants={itemVariants}>
-                        <div className="pritam-avatar-container">
-                            <div className="pritam-avatar-ring"></div>
-                            <div className="pritam-avatar-image"></div>
-                        </div>
-                    </motion.div> */}
                 </motion.div>
 
                 <motion.div 
